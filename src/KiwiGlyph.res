@@ -33,11 +33,22 @@ type constraint_ = {
   strength: Kiwi.Strength.t,
 }
 
+type bbox = {
+  left: float,
+  right: float,
+  top: float,
+  bottom: float,
+  width: float,
+  height: float,
+  centerX: float,
+  centerY: float,
+}
+
 type glyph = {
   id: string,
   children: array<string>,
   // TODO: add bbox inputs
-  encoding: unit => React.element,
+  encoding: bbox => React.element,
 }
 
 type variables = array<variable>
@@ -315,7 +326,18 @@ let render = system => {
   //   the bbox values returned by Kiwi. Use eval with Babel so it can handle JSX:
   //   https://stackoverflow.com/questions/33225951/evaling-code-with-jsx-syntax-in-it
   Js.log("glyphs")
-  let renderedGlyphs = Array.map(({encoding}) => encoding(), system.glyphs) // TODO: feed varValues in
+  let renderedGlyphs = Array.map(({id, encoding}) =>
+    encoding({
+      left: varValues->Belt.HashMap.String.get(id ++ ".left")->Belt.Option.getExn,
+      right: varValues->Belt.HashMap.String.get(id ++ ".right")->Belt.Option.getExn,
+      top: varValues->Belt.HashMap.String.get(id ++ ".top")->Belt.Option.getExn,
+      bottom: varValues->Belt.HashMap.String.get(id ++ ".bottom")->Belt.Option.getExn,
+      width: varValues->Belt.HashMap.String.get(id ++ ".width")->Belt.Option.getExn,
+      height: varValues->Belt.HashMap.String.get(id ++ ".height")->Belt.Option.getExn,
+      centerX: varValues->Belt.HashMap.String.get(id ++ ".centerX")->Belt.Option.getExn,
+      centerY: varValues->Belt.HashMap.String.get(id ++ ".centerY")->Belt.Option.getExn,
+    })
+  , system.glyphs) // TODO: feed varValues in
   // Concatenate all the glyphs and return a React element
   <svg width="500" height="500"> {renderedGlyphs->React.array} </svg>
 }

@@ -28,6 +28,16 @@ let makeContainer = text => {
 };
 
 ReactDOMRe.render(
+  KiwiGlyph.render(Simple.system),
+  makeContainer("Simple Test"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(SquareInCircle.system),
+  makeContainer("Square in Circle"),
+);
+
+ReactDOMRe.render(
   KiwiGlyph.render(TextLayout.system),
   makeContainer("KiwiGlyph Rendering Test"),
 );

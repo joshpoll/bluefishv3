@@ -1,6 +1,6 @@
 open Kiwi.Strength
 
-let encoding = () => <rect width="100" height="100" />
+let encoding = _ => <rect width="100" height="100" />
 
 let system = {
   KiwiGlyph.variables: [
