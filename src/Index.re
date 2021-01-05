@@ -39,7 +39,7 @@ ReactDOMRe.render(
 
 ReactDOMRe.render(
   KiwiGlyph.render(TextLayout.system),
-  makeContainer("KiwiGlyph Rendering Test"),
+  makeContainer("Text Layout"),
 );
 
 // All 4 examples.
