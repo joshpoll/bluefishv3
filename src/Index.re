@@ -27,6 +27,11 @@ let makeContainer = text => {
   content;
 };
 
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayout.system),
+  makeContainer("KiwiGlyph Rendering Test"),
+);
+
 // All 4 examples.
 ReactDOMRe.render(
   <BlinkingGreeting>
