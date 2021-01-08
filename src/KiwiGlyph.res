@@ -42,6 +42,8 @@ type bbox = {
   height: float,
   centerX: float,
   centerY: float,
+  scaleX: float,
+  scaleY: float,
 }
 
 type glyph = {
@@ -295,12 +297,74 @@ module Layout = {
 
   let glyph = ({id, children}) => {KiwiBBox.id: id, children: children}
 
+  let measureNaturalDimensions = (g: glyph): (float, float) => {
+    // TODO: feed in a smarter dummy encoding or cut the amount of bbox information sent to encoding
+    let (naturalWidth, naturalHeight) = Measure.svg(
+      "measurement-node",
+      g.encoding({
+        left: 0.,
+        right: 0.,
+        top: 0.,
+        bottom: 0.,
+        width: 1.,
+        height: 1.,
+        centerX: 0.,
+        centerY: 0.,
+        scaleX: 1.,
+        scaleY: 1.,
+      }),
+    )
+    // prevents nonzero values (e.g. canvas)
+    // TODO: could switch encoding to an `option` and then only use this hack for Nones.
+    (max(naturalWidth, 1.), max(naturalHeight, 1.))
+  }
+
+  let makeScaleVariablesAndConstraints = (g: glyph): (variables, constraints) => {
+    let (naturalWidth, naturalHeight) = measureNaturalDimensions(g)
+
+    (
+      [
+        {
+          id: j`${g.id}.scaleX`,
+          varOpt: Derived /* TODO: suggest 1? */,
+        },
+        {
+          id: j`${g.id}.scaleY`,
+          varOpt: Derived /* TODO: suggest 1? */,
+        },
+      ],
+      [
+        {
+          lhs: AExpr(Var(j`${g.id}.width`)),
+          op: Eq,
+          rhs: AExpr(Mul(Var(j`${g.id}.scaleX`), naturalWidth)),
+          strength: Kiwi.Strength.required,
+        },
+        {
+          lhs: AExpr(Var(j`${g.id}.height`)),
+          op: Eq,
+          rhs: AExpr(Mul(Var(j`${g.id}.scaleY`), naturalHeight)),
+          strength: Kiwi.Strength.required,
+        },
+      ],
+    )
+  }
+
   let system = ({variables, constraints, glyphs}) => {
     open! Belt
 
+    // TODO: add scaleX, scaleY, naturalWidth, naturalHeight variables
+    // TODO: measure naturalWidth and naturalHeight
+    // TODO: add width/scaleX/naturalWidth and height/scaleY/naturalHeight constraints
+
+    let (scaleVars, scaleConstraints) =
+      glyphs->Array.map(makeScaleVariablesAndConstraints)->Array.unzip
+    let scaleVars = Array.concatMany(scaleVars)
+    let scaleConstraints = Array.concatMany(scaleConstraints)
+
     {
-      KiwiBBox.variables: variables->Array.map(variable),
-      constraints: constraints->Array.map(constraint_),
+      KiwiBBox.variables: Array.concat(variables, scaleVars)->Array.map(variable),
+      constraints: Array.concat(constraints, scaleConstraints)->Array.map(constraint_),
       bboxes: glyphs->Array.map(glyph),
     }
   }
@@ -336,6 +400,8 @@ let render = system => {
       height: varValues->Belt.HashMap.String.get(id ++ ".height")->Belt.Option.getExn,
       centerX: varValues->Belt.HashMap.String.get(id ++ ".centerX")->Belt.Option.getExn,
       centerY: varValues->Belt.HashMap.String.get(id ++ ".centerY")->Belt.Option.getExn,
+      scaleX: varValues->Belt.HashMap.String.get(id ++ ".scaleX")->Belt.Option.getExn,
+      scaleY: varValues->Belt.HashMap.String.get(id ++ ".scaleY")->Belt.Option.getExn,
     })
   , system.glyphs) // TODO: feed varValues in
   // Concatenate all the glyphs and return a React element

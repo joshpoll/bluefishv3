@@ -9,6 +9,14 @@ let encoding = (color, {KiwiGlyph.left: left, top, width, height}) =>
     style={ReactDOM.Style.make(~fill=color, ~fillOpacity="0.3", ~stroke="black", ())}
   />
 
+let textEncoding = (text, style) => {
+  ({KiwiGlyph.left: left, bottom}) => {
+    <text x={left->Js.Float.toString} y={bottom->Js.Float.toString} style>
+      {text->React.string}
+    </text>
+  }
+}
+
 let system = {
   Gestalt.variables: [
     {
@@ -17,7 +25,7 @@ let system = {
     },
     {
       id: "nameInstrsGap",
-      varOpt: Suggest(10., strong),
+      varOpt: Suggest(2., strong),
     },
     {
       id: "courseGap",
@@ -40,113 +48,113 @@ let system = {
     },
     // courseName sizes
     {
-      lhs: AExpr(Var("courseName1.width")),
+      lhs: AExpr(Var("courseName1.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(137.02)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseName1.height")),
+      lhs: AExpr(Var("courseName1.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseName2.width")),
+      lhs: AExpr(Var("courseName2.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(318.75)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseName2.height")),
+      lhs: AExpr(Var("courseName2.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseName3.width")),
+      lhs: AExpr(Var("courseName3.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(408.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseName3.height")),
+      lhs: AExpr(Var("courseName3.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     // courseNum sizes
     {
-      lhs: AExpr(Var("courseNum1.width")),
+      lhs: AExpr(Var("courseNum1.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(40.5)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseNum1.height")),
+      lhs: AExpr(Var("courseNum1.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseNum2.width")),
+      lhs: AExpr(Var("courseNum2.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(40.5)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseNum2.height")),
+      lhs: AExpr(Var("courseNum2.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseNum3.width")),
+      lhs: AExpr(Var("courseNum3.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(39.86)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("courseNum3.height")),
+      lhs: AExpr(Var("courseNum3.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
-    // instructors sizes (TODO: set actual values!!)
-    {
-      lhs: AExpr(Var("instructors1.width")),
+    // instructors sizes
+     {
+      lhs: AExpr(Var("instructors1.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(40.5)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors1.height")),
-      op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("instructors2.width")),
+      lhs: AExpr(Var("instructors1.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(40.5)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("instructors2.height")),
+      lhs: AExpr(Var("instructors2.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("instructors3.width")),
+      lhs: AExpr(Var("instructors2.scaleY")),
       op: Eq,
-      rhs: AExpr(Num(39.86)),
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
     {
-      lhs: AExpr(Var("instructors3.height")),
+      lhs: AExpr(Var("instructors3.scaleX")),
       op: Eq,
-      rhs: AExpr(Num(20.81)),
+      rhs: AExpr(Num(1.)),
+      strength: required,
+    },
+    {
+      lhs: AExpr(Var("instructors3.scaleY")),
+      op: Eq,
+      rhs: AExpr(Num(1.)),
       strength: required,
     },
   ],
@@ -216,62 +224,80 @@ let system = {
     {
       id: "courseName1",
       children: [],
-      encoding: encoding("black"),
+      encoding: textEncoding(
+        "Software Studio",
+        ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
+      ),
     },
     {
       id: "courseName2",
       children: [],
-      encoding: encoding("black"),
+      encoding: textEncoding(
+        "Engineering Interactive Technologies",
+        ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
+      ),
     },
     {
       id: "courseName3",
       children: [],
-      encoding: encoding("black"),
+      encoding: textEncoding(
+        "Principles and Practice of Assistive Technology",
+        ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
+      ),
     },
     {
       id: "courseNum1",
       children: [],
-      encoding: encoding("red"),
+      encoding: textEncoding("6.170", ReactDOM.Style.make(~font="18px light sans-serif", ())),
     },
     {
       id: "courseNum2",
       children: [],
-      encoding: encoding("red"),
+      encoding: textEncoding("6.810", ReactDOM.Style.make(~font="18px light sans-serif", ())),
     },
     {
       id: "courseNum3",
       children: [],
-      encoding: encoding("red"),
+      encoding: textEncoding("6.811", ReactDOM.Style.make(~font="18px light sans-serif", ())),
     },
     {
       id: "instructors1",
       children: [],
-      encoding: encoding("blue"),
+      encoding: textEncoding(
+        "Jackson & Satyanarayan",
+        ReactDOM.Style.make(~font="italic 16px serif", ()),
+      ),
     },
     {
       id: "instructors2",
       children: [],
-      encoding: encoding("blue"),
+      encoding: textEncoding(
+        "Mueller",
+        ReactDOM.Style.make(~font="italic 16px serif", ()),
+      ),
     },
     {
       id: "instructors3",
       children: [],
-      encoding: encoding("blue"),
+      encoding: textEncoding(
+        "Miller, Greenberg, Keane",
+        ReactDOM.Style.make(~font="italic 16px serif", ()),
+      ),
     },
     {
       id: "course1",
       children: [],
-      encoding: encoding("white"),
+      encoding: _ => <> </>,
     },
     {
       id: "course2",
       children: [],
-      encoding: encoding("white"),
+      encoding: _ => <> </>,
     },
     {
       id: "course3",
       children: [],
-      encoding: encoding("white"),
+      encoding: _ => <> </>,
     },
     {
       id: "canvas",
