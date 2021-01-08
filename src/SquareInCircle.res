@@ -91,6 +91,7 @@ let system = {
       id: "canvas",
       children: ["circle"],
       encoding: _ => <> </>,
+      fixedSize: false,
     },
     {
       id: "square",
@@ -103,6 +104,7 @@ let system = {
           height={Js.Float.toString(height)}
           style={ReactDOM.Style.make(~fillOpacity="0", ~stroke="#ff0000", ~strokeWidth="3", ())}
         />,
+      fixedSize: false,
     },
     {
       id: "circle",
@@ -115,6 +117,7 @@ let system = {
           ry={Js.Float.toString(height /. 2.)}
           style={ReactDOM.Style.make(~stroke="#0000ff", ~fillOpacity="0", ~strokeWidth="3", ())}
         />,
+      fixedSize: false,
     },
   ],
 }

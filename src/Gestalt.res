@@ -17,6 +17,7 @@ type glyph = {
   id: string,
   children: array<string>,
   encoding: KiwiGlyph.bbox => React.element,
+  fixedSize: bool,
 }
 
 type variables = array<variable>
@@ -35,10 +36,11 @@ module Lower = {
 
   let relation = ({instances, gestalt}) => instances->Belt.Array.map(gestalt)->Belt.Array.concatMany
 
-  let glyph = ({id, children, encoding}) => {
+  let glyph = ({id, children, encoding, fixedSize}) => {
     KiwiGlyph.id: id,
     children: children,
     encoding: encoding,
+    fixedSize: fixedSize,
   }
 
   let system = ({variables, constraints, relations, glyphs}) => {

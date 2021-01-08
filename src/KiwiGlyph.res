@@ -51,6 +51,7 @@ type glyph = {
   children: array<string>,
   // TODO: add bbox inputs
   encoding: bbox => React.element,
+  fixedSize: bool,
 }
 
 type variables = array<variable>
@@ -133,6 +134,7 @@ module Encode = {
         ("id", string(r.id)),
         ("children", array(string, r.children)),
         ("encoding", raise(TODO)),
+        ("fixedSize", bool(r.fixedSize)),
       ] |> Array.to_list,
     )
 
@@ -228,6 +230,7 @@ module Decode = {
     id: json |> field("id", string),
     children: json |> field("children", array(string)),
     encoding: json |> field("encoding", raise(TODO)),
+    fixedSize: json |> field("fixedSize", bool),
   }
 
   let variables = Json.Decode.array(variable)
@@ -320,6 +323,25 @@ module Layout = {
   }
 
   let makeScaleVariablesAndConstraints = (g: glyph): (variables, constraints) => {
+    let fixedSizeConstraints = if g.fixedSize {
+      [
+        {
+          lhs: AExpr(Var(j`${g.id}.scaleX`)),
+          op: Eq,
+          rhs: AExpr(Num(1.)),
+          strength: Kiwi.Strength.required,
+        },
+        {
+          lhs: AExpr(Var(j`${g.id}.scaleY`)),
+          op: Eq,
+          rhs: AExpr(Num(1.)),
+          strength: Kiwi.Strength.required,
+        },
+      ]
+    } else {
+      []
+    }
+
     let (naturalWidth, naturalHeight) = measureNaturalDimensions(g)
 
     (
@@ -346,7 +368,7 @@ module Layout = {
           rhs: AExpr(Mul(Var(j`${g.id}.scaleY`), naturalHeight)),
           strength: Kiwi.Strength.required,
         },
-      ],
+      ]->Belt.Array.concat(fixedSizeConstraints),
     )
   }
 

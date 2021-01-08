@@ -46,117 +46,6 @@ let system = {
       rhs: AExpr(Num(0.)),
       strength: required,
     },
-    // courseName sizes
-    {
-      lhs: AExpr(Var("courseName1.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseName1.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseName2.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseName2.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseName3.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseName3.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    // courseNum sizes
-    {
-      lhs: AExpr(Var("courseNum1.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseNum1.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseNum2.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseNum2.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseNum3.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("courseNum3.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    // instructors sizes
-     {
-      lhs: AExpr(Var("instructors1.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors1.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors2.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors2.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors3.scaleX")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
-    {
-      lhs: AExpr(Var("instructors3.scaleY")),
-      op: Eq,
-      rhs: AExpr(Num(1.)),
-      strength: required,
-    },
   ],
   relations: [
     {
@@ -228,6 +117,7 @@ let system = {
         "Software Studio",
         ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
       ),
+      fixedSize: true,
     },
     {
       id: "courseName2",
@@ -236,6 +126,7 @@ let system = {
         "Engineering Interactive Technologies",
         ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
       ),
+      fixedSize: true,
     },
     {
       id: "courseName3",
@@ -244,21 +135,25 @@ let system = {
         "Principles and Practice of Assistive Technology",
         ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
       ),
+      fixedSize: true,
     },
     {
       id: "courseNum1",
       children: [],
       encoding: textEncoding("6.170", ReactDOM.Style.make(~font="18px light sans-serif", ())),
+      fixedSize: true,
     },
     {
       id: "courseNum2",
       children: [],
       encoding: textEncoding("6.810", ReactDOM.Style.make(~font="18px light sans-serif", ())),
+      fixedSize: true,
     },
     {
       id: "courseNum3",
       children: [],
       encoding: textEncoding("6.811", ReactDOM.Style.make(~font="18px light sans-serif", ())),
+      fixedSize: true,
     },
     {
       id: "instructors1",
@@ -267,14 +162,13 @@ let system = {
         "Jackson & Satyanarayan",
         ReactDOM.Style.make(~font="italic 16px serif", ()),
       ),
+      fixedSize: true,
     },
     {
       id: "instructors2",
       children: [],
-      encoding: textEncoding(
-        "Mueller",
-        ReactDOM.Style.make(~font="italic 16px serif", ()),
-      ),
+      encoding: textEncoding("Mueller", ReactDOM.Style.make(~font="italic 16px serif", ())),
+      fixedSize: true,
     },
     {
       id: "instructors3",
@@ -283,26 +177,31 @@ let system = {
         "Miller, Greenberg, Keane",
         ReactDOM.Style.make(~font="italic 16px serif", ()),
       ),
+      fixedSize: true,
     },
     {
       id: "course1",
       children: [],
       encoding: _ => <> </>,
+      fixedSize: false,
     },
     {
       id: "course2",
       children: [],
       encoding: _ => <> </>,
+      fixedSize: false,
     },
     {
       id: "course3",
       children: [],
       encoding: _ => <> </>,
+      fixedSize: false,
     },
     {
       id: "canvas",
       children: [],
       encoding: _ => <> </>,
+      fixedSize: false,
     },
   ],
 }
