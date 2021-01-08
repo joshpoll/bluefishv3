@@ -353,10 +353,6 @@ module Layout = {
   let system = ({variables, constraints, glyphs}) => {
     open! Belt
 
-    // TODO: add scaleX, scaleY, naturalWidth, naturalHeight variables
-    // TODO: measure naturalWidth and naturalHeight
-    // TODO: add width/scaleX/naturalWidth and height/scaleY/naturalHeight constraints
-
     let (scaleVars, scaleConstraints) =
       glyphs->Array.map(makeScaleVariablesAndConstraints)->Array.unzip
     let scaleVars = Array.concatMany(scaleVars)
