@@ -42,25 +42,30 @@ ReactDOMRe.render(
   makeContainer("Text Layout"),
 );
 
-// All 4 examples.
 ReactDOMRe.render(
-  <BlinkingGreeting>
-    {React.string("Hello!")}
-  </BlinkingGreeting>,
-  makeContainer("Blinking Greeting"),
+  KiwiGlyph.render(TextLayoutGestalt.system),
+  makeContainer("Text Layout Gestalt"),
 );
 
-ReactDOMRe.render(
-  <ReducerFromReactJSDocs />,
-  makeContainer("Reducer From ReactJS Docs"),
-);
+// // All 4 examples.
+// ReactDOMRe.render(
+//   <BlinkingGreeting>
+//     {React.string("Hello!")}
+//   </BlinkingGreeting>,
+//   makeContainer("Blinking Greeting"),
+// );
 
-ReactDOMRe.render(
-  <FetchedDogPictures />,
-  makeContainer("Fetched Dog Pictures"),
-);
+// ReactDOMRe.render(
+//   <ReducerFromReactJSDocs />,
+//   makeContainer("Reducer From ReactJS Docs"),
+// );
 
-ReactDOMRe.render(
-  <ReasonUsingJSUsingReason />,
-  makeContainer("Reason Using JS Using Reason"),
-);
+// ReactDOMRe.render(
+//   <FetchedDogPictures />,
+//   makeContainer("Fetched Dog Pictures"),
+// );
+
+// ReactDOMRe.render(
+//   <ReasonUsingJSUsingReason />,
+//   makeContainer("Reason Using JS Using Reason"),
+// );
