@@ -38,6 +38,16 @@ ReactDOMRe.render(
   makeContainer("Text Layout Gestalt"),
 );
 
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayoutGestaltCentered.system->Gestalt.Lower.system),
+  makeContainer("Text Layout Gestalt Centered"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayoutGestaltInline.system->Gestalt.Lower.system),
+  makeContainer("Text Layout Gestalt Inline"),
+);
+
 // // All 4 examples.
 // ReactDOMRe.render(
 //   <BlinkingGreeting>

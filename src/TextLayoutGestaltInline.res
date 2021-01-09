@@ -25,7 +25,7 @@ let system = {
     },
     {
       id: "nameInstrsGap",
-      varOpt: Suggest(2., strong),
+      varOpt: Suggest(10., strong),
     },
     {
       id: "courseGap",
@@ -34,8 +34,6 @@ let system = {
   ],
   constraints: [
     // canvas position
-    // TODO: canvas should be a built-in. who should its children be? everything or just those
-    // without parents?
     {
       lhs: AExpr(Var("canvas.left")),
       op: Eq,
@@ -66,7 +64,7 @@ let system = {
         ("courseName2", "instructors2"),
         ("courseName3", "instructors3"),
       ],
-      gestalt: GestaltRelation.vAlignedGap(Var("nameInstrsGap"), Left),
+      gestalt: GestaltRelation.hAlignedGap(Var("nameInstrsGap"), Bottom),
     },
     {
       // course list

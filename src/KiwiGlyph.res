@@ -423,5 +423,11 @@ let render = system => {
     })
   , system.glyphs) // TODO: feed varValues in
   // Concatenate all the glyphs and return a React element
-  <svg width="500" height="500"> {renderedGlyphs->React.array} </svg>
+  let width = varValues->Belt.HashMap.String.get("canvas.width")->Belt.Option.getExn
+  let height = varValues->Belt.HashMap.String.get("canvas.height")->Belt.Option.getExn
+  // TODO: added padding so text fits in svg (it hangs underneath its baseline). but we should make
+  // padding easy to specify declaratively
+  <svg width={Js.Float.toString(width +. 5.)} height={Js.Float.toString(height +. 5.)}>
+    {renderedGlyphs->React.array}
+  </svg>
 }

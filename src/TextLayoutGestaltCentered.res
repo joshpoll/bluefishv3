@@ -34,8 +34,6 @@ let system = {
   ],
   constraints: [
     // canvas position
-    // TODO: canvas should be a built-in. who should its children be? everything or just those
-    // without parents?
     {
       lhs: AExpr(Var("canvas.left")),
       op: Eq,
@@ -66,7 +64,7 @@ let system = {
         ("courseName2", "instructors2"),
         ("courseName3", "instructors3"),
       ],
-      gestalt: GestaltRelation.vAlignedGap(Var("nameInstrsGap"), Left),
+      gestalt: GestaltRelation.vAlignedGap(Var("nameInstrsGap"), CenterX),
     },
     {
       // course list
@@ -76,7 +74,7 @@ let system = {
     {
       // TODO: there are several ways to encode this!! Effectively serves as course's alignment
       instances: [("course1", "course2"), ("course2", "course3")],
-      gestalt: GestaltRelation.leftAlign,
+      gestalt: GestaltRelation.centerXAlign,
     },
     {
       // course1 children
