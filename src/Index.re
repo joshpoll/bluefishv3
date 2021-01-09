@@ -48,6 +48,11 @@ ReactDOMRe.render(
   makeContainer("Text Layout Gestalt Inline"),
 );
 
+ReactDOMRe.render(
+  KiwiGlyph.render(TreeLayout.system->Gestalt.Lower.system),
+  makeContainer("Tree Layout"),
+);
+
 // // All 4 examples.
 // ReactDOMRe.render(
 //   <BlinkingGreeting>
