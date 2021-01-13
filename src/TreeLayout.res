@@ -81,11 +81,11 @@ let system = {
   Gestalt.variables: [
     {
       id: "siblingGap",
-      varOpt: Suggest(5., strong),
+      varOpt: Suggest(10., strong),
     },
     {
       id: "dataChildGap",
-      varOpt: Suggest(10., strong),
+      varOpt: Suggest(20., strong),
     },
   ],
   constraints: [

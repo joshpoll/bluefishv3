@@ -78,6 +78,9 @@ let system = {
       instances: [("course1", "course2"), ("course2", "course3")],
       gestalt: GestaltRelation.leftAlign,
     },
+
+    // TODO: probably better to coalesce contains relations
+    // course -> set children
     {
       // course1 children
       instances: [
