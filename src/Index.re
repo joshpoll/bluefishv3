@@ -53,6 +53,14 @@ ReactDOMRe.render(
   makeContainer("Tree Layout"),
 );
 
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic.toGestalt(Semantic.exampleSemanticSystem, Semantic.exampleGestaltEncoding)
+    ->Gestalt.Lower.system,
+  ),
+  makeContainer("Semantic Test"),
+);
+
 // // All 4 examples.
 // ReactDOMRe.render(
 //   <BlinkingGreeting>
