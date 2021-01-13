@@ -5,6 +5,10 @@ type glyph = string
 
 type gestaltRelation = ((glyph, glyph)) => KiwiGlyph.constraints
 
+let combine = (r1: gestaltRelation, r2: gestaltRelation): gestaltRelation => {
+  ((g1, g2)) => Belt.Array.concat(r1((g1, g2)), r2((g1, g2)))
+}
+
 let hGap = (gapExpr): gestaltRelation => {
   ((g1, g2)) => [
     {
