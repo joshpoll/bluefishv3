@@ -11,7 +11,7 @@ type relation =
 type semanticSystem = Belt.Map.String.t<relation>
 
 type glyph = (data, KiwiGlyph.bbox) => React.element
-type group = KiwiGlyph.bbox => React.element
+type group = option<KiwiGlyph.bbox => React.element>
 
 type gestalt = (id, id, GestaltRelation.gestaltRelation)
 
@@ -45,7 +45,10 @@ let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt.gl
     datas->Belt.Array.mapWithIndex((i, _) => {
       Gestalt.id: j`${name}_${Belt.Int.toString(i)}`,
       children: [],
-      encoding: encoding,
+      encoding: switch encoding {
+      | Some(e) => e
+      | None => _ => <> </>
+      },
       fixedSize: fixedSize,
     })
   | _ => raise(SemanticEncodingMismatch)

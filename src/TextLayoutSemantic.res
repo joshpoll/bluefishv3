@@ -82,7 +82,7 @@ let gestaltEncoding = Belt.Map.String.fromArray([
   (
     "course",
     Gestalt(
-      _ => <> </>,
+      None,
       false,
       [
         // numbers denote position in tuple
@@ -94,10 +94,10 @@ let gestaltEncoding = Belt.Map.String.fromArray([
   (
     "courses",
     Gestalt(
-      _ => <> </>,
+      None,
       false,
       [(0, 1, GestaltRelation.combine(GestaltRelation.vGap(Num(10.)), GestaltRelation.leftAlign))],
     ),
   ),
-  ("canvas", Gestalt(_ => <> </>, false, [])),
+  ("canvas", Gestalt(None, false, [])),
 ])
