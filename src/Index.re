@@ -55,7 +55,7 @@ ReactDOMRe.render(
 
 ReactDOMRe.render(
   KiwiGlyph.render(
-    Semantic.toGestalt(Semantic.exampleSemanticSystem, Semantic.exampleGestaltEncoding)
+    Semantic.toGestalt(TextLayoutSemantic.semanticSystem, TextLayoutSemantic.gestaltEncoding)
     ->Gestalt.Lower.system,
   ),
   makeContainer("Semantic Test"),
