@@ -1,5 +1,13 @@
+// Changes from Semantic:
+//    field names instead of positional numbers (i.e. tuple -> record)
+//    relation gets an id (and instance of relation gets a sub-id?) instead of relation instances
+//      getting id's
+//    This is different b/c now a primitive doesn't operate like a unary relation. The distinction
+//      between atoms and relations has precedent in nested relational algebra
+
 type data = string
 type field = string
+type fieldType = string
 type id = int
 
 type relation =
@@ -7,14 +15,14 @@ type relation =
   // TODO: could specialize to just binary relations
   // TODO: could generalize int in the case that the field could be anything (like with contains)
   // TOOD: header should be (name, field) instead of just field
-  | Relation(array<field>, array<array<id>>)
+  | Relation(array<(field, fieldType)>, array<array<id>>)
 
 type semanticSystem = Belt.Map.String.t<relation>
 
 type glyph = (data, KiwiGlyph.bbox) => React.element
 type group = option<KiwiGlyph.bbox => React.element>
 
-type gestalt = (id, id, GestaltRelation.gestaltRelation)
+type gestalt = (field, field, GestaltRelation.gestaltRelation)
 
 type encoding =
   // bool represents whether or not fixed size
@@ -60,9 +68,9 @@ let createContains = ((name: string, r: relation)): array<Gestalt.relation> =>
   | Primitive(_) => []
   | Relation(fields, datas) =>
     datas->Belt.Array.mapWithIndex((i, data) => {
-      Gestalt.instances: fields->Belt.Array.mapWithIndex((j, field) => (
+      Gestalt.instances: fields->Belt.Array.mapWithIndex((j, (_field, fieldType)) => (
         j`${name}_${Belt.Int.toString(i)}`,
-        j`${field}_${Belt.Int.toString(data[j])}`,
+        j`${fieldType}_${Belt.Int.toString(data[j])}`,
       )),
       gestalt: GestaltRelation.contains,
     })
@@ -73,12 +81,12 @@ let createRelations = ((_name: string, (r: relation, e: encoding))): array<Gesta
   | (Primitive(_), _) => []
   | (Relation(fields, datas), Gestalt(_, _, gs)) =>
     gs->Belt.Array.map(((left, right, rel)) => {
-      // let leftIdx = fields->Belt.Array.getIndexBy(x => x == left)->Belt.Option.getExn
-      // let rightIdx = fields->Belt.Array.getIndexBy(x => x == right)->Belt.Option.getExn
+      let leftIdx = fields->Belt.Array.getIndexBy(x => fst(x) == left)->Belt.Option.getExn
+      let rightIdx = fields->Belt.Array.getIndexBy(x => fst(x) == right)->Belt.Option.getExn
       {
         Gestalt.instances: datas->Belt.Array.map(data => (
-          j`${fields[left]}_${Belt.Int.toString(data[left])}`,
-          j`${fields[right]}_${Belt.Int.toString(data[right])}`,
+          j`${snd(fields[leftIdx])}_${Belt.Int.toString(data[leftIdx])}`,
+          j`${snd(fields[rightIdx])}_${Belt.Int.toString(data[rightIdx])}`,
         )),
         gestalt: rel,
       }

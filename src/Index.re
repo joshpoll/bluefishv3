@@ -61,6 +61,14 @@ ReactDOMRe.render(
   makeContainer("Semantic Test"),
 );
 
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic2.toGestalt(TextLayoutSemantic2.semanticSystem, TextLayoutSemantic2.gestaltEncoding)
+    ->Gestalt.Lower.system,
+  ),
+  makeContainer("Semantic2 Test"),
+);
+
 // // All 4 examples.
 // ReactDOMRe.render(
 //   <BlinkingGreeting>
