@@ -1,0 +1,10 @@
+foo : list(bar)
+
+elaborates to
+
+foo : {
+    elems : {elem: bar},
+    list: {curr: bar, prev: bar}
+  }
+
+reminds me of typeclasses

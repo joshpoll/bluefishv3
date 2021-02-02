@@ -18,7 +18,7 @@ let textEncoding = (text, style) => {
 }
 
 let system = {
-  Gestalt.variables: [
+  Gestalt2.variables: [
     {
       id: "numNameGap",
       varOpt: Suggest(9.5, strong),

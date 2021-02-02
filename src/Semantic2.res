@@ -41,18 +41,18 @@ let text = (style, text) => {
 
 exception SemanticEncodingMismatch
 
-let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt.glyph> =>
+let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt2.glyph> =>
   switch (r, e) {
   | (Primitive(datas), Glyph(encodingFn, fixedSize)) =>
     datas->Belt.Array.mapWithIndex((i, data) => {
-      Gestalt.id: j`${name}_${Belt.Int.toString(i)}`,
+      Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
       children: [],
       encoding: encodingFn(data),
       fixedSize: fixedSize,
     })
   | (Relation(_, datas), Gestalt(encoding, fixedSize, _)) =>
     datas->Belt.Array.mapWithIndex((i, _) => {
-      Gestalt.id: j`${name}_${Belt.Int.toString(i)}`,
+      Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
       children: [],
       encoding: switch encoding {
       | Some(e) => e
@@ -63,12 +63,12 @@ let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt.gl
   | _ => raise(SemanticEncodingMismatch)
   }
 
-let createContains = ((name: string, r: relation)): array<Gestalt.relation> =>
+let createContains = ((name: string, r: relation)): array<Gestalt2.relation> =>
   switch r {
   | Primitive(_) => []
   | Relation(fields, datas) =>
     datas->Belt.Array.mapWithIndex((i, data) => {
-      Gestalt.instances: fields->Belt.Array.mapWithIndex((j, (_field, fieldType)) => (
+      Gestalt2.instances: fields->Belt.Array.mapWithIndex((j, (_field, fieldType)) => (
         j`${name}_${Belt.Int.toString(i)}`,
         j`${fieldType}_${Belt.Int.toString(data[j])}`,
       )),
@@ -76,7 +76,7 @@ let createContains = ((name: string, r: relation)): array<Gestalt.relation> =>
     })
   }
 
-let createRelations = ((_name: string, (r: relation, e: encoding))): array<Gestalt.relation> =>
+let createRelations = ((_name: string, (r: relation, e: encoding))): array<Gestalt2.relation> =>
   switch (r, e) {
   | (Primitive(_), _) => []
   | (Relation(fields, datas), Gestalt(_, _, gs)) =>
@@ -84,7 +84,7 @@ let createRelations = ((_name: string, (r: relation, e: encoding))): array<Gesta
       let leftIdx = fields->Belt.Array.getIndexBy(x => fst(x) == left)->Belt.Option.getExn
       let rightIdx = fields->Belt.Array.getIndexBy(x => fst(x) == right)->Belt.Option.getExn
       {
-        Gestalt.instances: datas->Belt.Array.map(data => (
+        Gestalt2.instances: datas->Belt.Array.map(data => (
           j`${snd(fields[leftIdx])}_${Belt.Int.toString(data[leftIdx])}`,
           j`${snd(fields[rightIdx])}_${Belt.Int.toString(data[rightIdx])}`,
         )),
@@ -95,7 +95,7 @@ let createRelations = ((_name: string, (r: relation, e: encoding))): array<Gesta
   }
 
 // TODO: this currently relies on a canvas_0 -> canvas rename hack!!
-let toGestalt = (s: semanticSystem, ge: gestaltEncoding): Gestalt.system => {
+let toGestalt = (s: semanticSystem, ge: gestaltEncoding): Gestalt2.system => {
   open! Belt
 
   let sge = Map.String.merge(s, ge, (_, os, oge) =>

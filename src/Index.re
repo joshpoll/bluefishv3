@@ -27,55 +27,67 @@ let makeContainer = text => {
   content;
 };
 
-ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
-
-ReactDOMRe.render(KiwiGlyph.render(SquareInCircle.system), makeContainer("Square in Circle"));
-
-ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
-
 ReactDOMRe.render(
-  KiwiGlyph.render(TextLayoutGestalt.system->Gestalt.Lower.system),
-  makeContainer("Text Layout Gestalt"),
+  KiwiGlyph.render(TreeLayoutIcicle.system->Gestalt2.Lower.system),
+  makeContainer("Tree Layout Icicle"),
 );
 
-ReactDOMRe.render(
-  KiwiGlyph.render(TextLayoutGestaltCentered.system->Gestalt.Lower.system),
-  makeContainer("Text Layout Gestalt Centered"),
-);
 
 ReactDOMRe.render(
-  KiwiGlyph.render(TextLayoutGestaltInline.system->Gestalt.Lower.system),
-  makeContainer("Text Layout Gestalt Inline"),
-);
-
-ReactDOMRe.render(
-  KiwiGlyph.render(TreeLayout.system->Gestalt.Lower.system),
-  makeContainer("Tree Layout"),
-);
-
-ReactDOMRe.render(
-  KiwiGlyph.render(
-    Semantic.toGestalt(TextLayoutSemantic.semanticSystem, TextLayoutSemantic.gestaltEncoding)
-    ->Gestalt.Lower.system,
-  ),
-  makeContainer("Semantic Test"),
+  KiwiGlyph.render(TreeLayoutRevised.system->Gestalt2.Lower.system),
+  makeContainer("Tree Layout Revised"),
 );
 
 ReactDOMRe.render(
   KiwiGlyph.render(
     Semantic2.toGestalt(TextLayoutSemantic2.semanticSystem, TextLayoutSemantic2.gestaltEncoding)
-    ->Gestalt.Lower.system,
+    ->Gestalt2.Lower.system,
   ),
   makeContainer("Semantic2 Test"),
 );
 
 ReactDOMRe.render(
   KiwiGlyph.render(
-    Semantic2.toGestalt(TreeLayoutSemantic.semanticSystem, TreeLayoutSemantic.gestaltEncoding)
-    ->Gestalt.Lower.system,
+    Semantic.toGestalt(TextLayoutSemantic.semanticSystem, TextLayoutSemantic.gestaltEncoding)
+    ->Gestalt2.Lower.system,
   ),
-  makeContainer("Tree Layout Semantic Test"),
+  makeContainer("Semantic Test"),
 );
+
+ReactDOMRe.render(
+  KiwiGlyph.render(TreeLayout.system->Gestalt2.Lower.system),
+  makeContainer("Tree Layout"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayoutGestaltInline.system->Gestalt2.Lower.system),
+  makeContainer("Text Layout Gestalt Inline"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayoutGestaltCentered.system->Gestalt2.Lower.system),
+  makeContainer("Text Layout Gestalt Centered"),
+);
+
+
+ReactDOMRe.render(
+  KiwiGlyph.render(TextLayoutGestalt.system->Gestalt2.Lower.system),
+  makeContainer("Text Layout Gestalt"),
+);
+
+ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
+
+ReactDOMRe.render(KiwiGlyph.render(SquareInCircle.system), makeContainer("Square in Circle"));
+
+ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
+
+// ReactDOMRe.render(
+//   KiwiGlyph.render(
+//     Semantic2.toGestalt(TreeLayoutSemantic.semanticSystem, TreeLayoutSemantic.gestaltEncoding)
+//     ->Gestalt2.Lower.system,
+//   ),
+//   makeContainer("Tree Layout Semantic Test"),
+// );
 
 // // All 4 examples.
 // ReactDOMRe.render(

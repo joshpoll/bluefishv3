@@ -306,9 +306,9 @@ module Layout = {
       "measurement-node",
       g.encoding({
         left: 0.,
-        right: 0.,
+        right: 1.,
         top: 0.,
-        bottom: 0.,
+        bottom: 1.,
         width: 1.,
         height: 1.,
         centerX: 0.,
@@ -407,7 +407,6 @@ let render = system => {
   //   Make the `encoding` string a function body that takes bbox fields as arguments. Call it with
   //   the bbox values returned by Kiwi. Use eval with Babel so it can handle JSX:
   //   https://stackoverflow.com/questions/33225951/evaling-code-with-jsx-syntax-in-it
-  Js.log("glyphs")
   let renderedGlyphs = Array.map(({id, encoding}) =>
     encoding({
       left: varValues->Belt.HashMap.String.get(id ++ ".left")->Belt.Option.getExn,

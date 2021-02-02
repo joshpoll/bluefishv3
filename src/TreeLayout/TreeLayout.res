@@ -33,52 +33,55 @@ let nodeEncoding = (radius, color) => {
     />
 }
 
-let nodeGestalt = (annotationSize, (node, annotation)) => [
-  // center annotation
-  {
-    KiwiGlyph.lhs: AExpr(Var(j`${node}.centerX`)),
-    op: Eq,
-    rhs: AExpr(Var(j`${annotation}.centerX`)),
-    strength: strong,
-  },
-  {
-    lhs: AExpr(Var(j`${node}.centerY`)),
-    op: Eq,
-    rhs: AExpr(Var(j`${annotation}.centerY`)),
-    strength: strong,
-  },
-  // annotation region (using tight le's)
-  {
-    lhs: AExpr(Var(j`${annotation}.width`)),
-    op: Le,
-    rhs: AExpr(Mul(Var(j`${node}.width`), sqrt(2.) /. 2. *. annotationSize)),
-    strength: strong,
-  },
-  {
-    lhs: AExpr(Var(j`${annotation}.width`)),
-    op: Eq,
-    rhs: AExpr(Mul(Var(j`${node}.width`), sqrt(2.) /. 2. *. annotationSize)),
-    strength: weak,
-  },
-  {
-    lhs: AExpr(Var(j`${annotation}.height`)),
-    op: Le,
-    rhs: AExpr(Mul(Var(j`${node}.height`), sqrt(2.) /. 2. *. annotationSize)),
-    strength: strong,
-  },
-  {
-    lhs: AExpr(Var(j`${annotation}.height`)),
-    op: Eq,
-    rhs: AExpr(Mul(Var(j`${node}.height`), sqrt(2.) /. 2. *. annotationSize)),
-    strength: weak,
-  },
-]
+let nodeGestalt = (annotationSize, (node, annotation)): Gestalt2.gestaltEncoding => {
+  constraints: [
+    // center annotation
+    {
+      KiwiGlyph.lhs: AExpr(Var(j`${node}.centerX`)),
+      op: Eq,
+      rhs: AExpr(Var(j`${annotation}.centerX`)),
+      strength: strong,
+    },
+    {
+      lhs: AExpr(Var(j`${node}.centerY`)),
+      op: Eq,
+      rhs: AExpr(Var(j`${annotation}.centerY`)),
+      strength: strong,
+    },
+    // annotation region (using tight le's)
+    {
+      lhs: AExpr(Var(j`${annotation}.width`)),
+      op: Le,
+      rhs: AExpr(Mul(Var(j`${node}.width`), sqrt(2.) /. 2. *. annotationSize)),
+      strength: strong,
+    },
+    {
+      lhs: AExpr(Var(j`${annotation}.width`)),
+      op: Eq,
+      rhs: AExpr(Mul(Var(j`${node}.width`), sqrt(2.) /. 2. *. annotationSize)),
+      strength: weak,
+    },
+    {
+      lhs: AExpr(Var(j`${annotation}.height`)),
+      op: Le,
+      rhs: AExpr(Mul(Var(j`${node}.height`), sqrt(2.) /. 2. *. annotationSize)),
+      strength: strong,
+    },
+    {
+      lhs: AExpr(Var(j`${annotation}.height`)),
+      op: Eq,
+      rhs: AExpr(Mul(Var(j`${node}.height`), sqrt(2.) /. 2. *. annotationSize)),
+      strength: weak,
+    },
+  ],
+  connectors: [],
+}
 
 // TODO: node encoding. should take a size and an annotation. Then scale the annotation to fit inside a box
 // within the circle.
 
 let system = {
-  Gestalt.variables: [
+  Gestalt2.variables: [
     {
       id: "siblingGap",
       varOpt: Suggest(10., strong),

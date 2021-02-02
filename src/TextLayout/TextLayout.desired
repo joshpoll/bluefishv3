@@ -1,0 +1,36 @@
+instructors : text
+
+name : text
+
+num : text
+
+course : {
+  instructors,
+  name,
+  num,
+}
+
+courses : list(course)
+
+canvas : courses
+
+------------------------------------------
+
+instructors : (~font="italic 16px serif")
+
+name : (~font="bold 18px sans-serif")
+
+num : (~font="18px light sans-serif")
+
+course : {
+  self : none
+
+  num-name : hAlignedGap(9.5, bottom),
+  name-instructors : vAlignedGap(2., left),
+}
+
+courses : {
+  self : none
+
+  list.curr.name-list.next.name : vAlignedGap(10., left)
+}

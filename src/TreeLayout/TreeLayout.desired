@@ -1,0 +1,42 @@
+data : int
+
+node : {
+  data : data
+  children : list(node)
+}
+
+canvas : node
+
+------------------------------------------
+// TODO: should probably copy primitives from GoTree?
+
+data : annotated circle with (~font="italic 16px serif")
+
+node : {
+  self : none
+
+  data-children : vAlignedGap(10., centerX)
+
+  // option 1 (my favorite)
+  children : {
+    list : {
+      curr-next : hAlignedGap(10., centerY)
+    }
+  }
+
+  data-children.elems : arrow
+
+  // option 2
+  children.list.curr-children.list.next : hAlignedGap(10., centerY)
+
+  data-children.elems : arrow
+
+  // option 3
+  children : {
+    data-elems : arrow
+    list : {
+      curr-next : hAlignedGap(10., centerY)
+    }
+  }
+
+}
