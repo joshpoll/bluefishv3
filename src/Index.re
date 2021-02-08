@@ -28,6 +28,14 @@ let makeContainer = text => {
 };
 
 ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(TextLayoutSemantic3.semanticSystem, TextLayoutSemantic3.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Semantic3 Test"),
+);
+
+ReactDOMRe.render(
   KiwiGlyph.render(TreeLayoutIcicle.system->Gestalt2.Lower.system),
   makeContainer("Tree Layout Icicle"),
 );
