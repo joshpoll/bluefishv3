@@ -29,6 +29,14 @@ let makeContainer = text => {
 
 ReactDOMRe.render(
   KiwiGlyph.render(
+    Semantic3.toGestalt(TreeLayoutSemantic3.semanticSystem, TreeLayoutSemantic3.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Semantic3 Tree Test"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
     Semantic3.toGestalt(TextLayoutSemantic3.semanticSystem, TextLayoutSemantic3.semanticEncoding)
     ->Gestalt2.Lower.system,
   ),
@@ -39,7 +47,6 @@ ReactDOMRe.render(
   KiwiGlyph.render(TreeLayoutIcicle.system->Gestalt2.Lower.system),
   makeContainer("Tree Layout Icicle"),
 );
-
 
 ReactDOMRe.render(
   KiwiGlyph.render(TreeLayoutRevised.system->Gestalt2.Lower.system),
@@ -76,7 +83,6 @@ ReactDOMRe.render(
   KiwiGlyph.render(TextLayoutGestaltCentered.system->Gestalt2.Lower.system),
   makeContainer("Text Layout Gestalt Centered"),
 );
-
 
 ReactDOMRe.render(
   KiwiGlyph.render(TextLayoutGestalt.system->Gestalt2.Lower.system),

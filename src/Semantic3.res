@@ -144,6 +144,8 @@ let rec resolveIndex = (g: Glyph.t, fields) =>
     | None => i
     | Some(glyph) => resolveIndex(glyph, fields)
     }
+  | Set(_) => Js.log("Set"); Js.log(g); raise(Not_found)
+  | Record(_) => Js.log("Record"); raise(Not_found)
   | _ => raise(Not_found)
   }
 
