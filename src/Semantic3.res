@@ -55,13 +55,6 @@ type semanticSystem = Belt.Map.String.t<array<Glyph.t>>
 // TODO: may want to push into Encoding.t
 type semanticEncoding = Belt.Map.String.t<(Encoding.t, bool)>
 
-let text = (style): Encoding.mark =>
-  (text, {KiwiGlyph.left: left, bottom}) => {
-    <text x={left->Js.Float.toString} y={bottom->Js.Float.toString} style>
-      {text->React.string}
-    </text>
-  }
-
 exception SemanticEncodingMismatch
 
 let createGlyph = ((name: string, (glyphs: array<Glyph.t>, encoding: (Encoding.t, bool)))): array<

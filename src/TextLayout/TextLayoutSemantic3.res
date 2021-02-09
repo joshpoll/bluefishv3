@@ -80,9 +80,9 @@ let semanticSystem = {
 let semanticEncoding = {
   open Encoding
   toMap([
-    ("instructors", (Primitive(text(ReactDOM.Style.make(~font="italic 16px serif", ()))), true)),
-    ("name", (Primitive(text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), true)),
-    ("num", (Primitive(text(ReactDOM.Style.make(~font="18px light sans-serif", ()))), true)),
+    ("instructors", (Primitive(Mark.text(ReactDOM.Style.make(~font="italic 16px serif", ()))), true)),
+    ("name", (Primitive(Mark.text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), true)),
+    ("num", (Primitive(Mark.text(ReactDOM.Style.make(~font="18px light sans-serif", ()))), true)),
     (
       "course",
       (

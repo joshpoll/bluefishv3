@@ -1,8 +1,4 @@
 // Tree Layout using Semantic3
-// TODO: convert icicle spec to this format. may require the following:
-//   - first write on paper?
-//   - adding support for . selection/join?
-//   - extendin the example more
 
 open Semantic3
 
@@ -46,26 +42,19 @@ let semanticSystem = {
 let semanticEncoding = {
   open Encoding
   toMap([
-    ("annotation", (Primitive(text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), true)),
+    ("annotation", (Primitive(Mark.text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), true)),
     (
       "data",
       (
         Record(
           Some(
-            ({KiwiGlyph.left: left, top, width, height}) =>
-              <rect
-                x={left->Js.Float.toString}
-                y={top->Js.Float.toString}
-                width={Js.Float.toString(width)}
-                height={Js.Float.toString(height)}
-                style={ReactDOM.Style.make(
+            Mark.rect(ReactDOM.Style.make(
                   ~fill="black",
                   ~fillOpacity="0.3",
                   // ~stroke="black",
                   // ~strokeWidth="3",
                   (),
-                )}
-              />,
+                ), "")
           ),
           toMap([]),
           [],
