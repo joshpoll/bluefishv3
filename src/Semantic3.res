@@ -2,6 +2,7 @@
 
 type data = string
 type field = string
+type path = array<string>
 type fieldType = string
 type id = int
 
@@ -23,11 +24,22 @@ module Glyph = {
   and relation = array<Belt.Map.String.t<t>>
 }
 
+module AnnotatedGlyph = {
+  // Includes glyph names
+
+  type rec t =
+    | Ref(fieldType, id) // reference to another glyph
+    | Primitive(string, data)
+    | Set(array<t>)
+    | Record(string, Belt.Map.String.t<t>, Belt.Map.String.t<relation>) // TODO: must include relations
+  and relation = array<Belt.Map.String.t<t>>
+}
+
 module Encoding = {
   type mark = (data, KiwiGlyph.bbox) => React.element
   type recordMark = option<KiwiGlyph.bbox => React.element>
 
-  type relation = (field, field, GestaltRelation.gestaltRelation)
+  type relation = (path, path, GestaltRelation.gestaltRelation)
 
   // TODO: this is weird because it's unclear who "owns" the rendering of glyphs
   type rec t =
@@ -50,33 +62,119 @@ module Encoding = {
 type semanticSchema = Belt.Map.String.t<GlyphType.t>
 
 type semanticSystem = Belt.Map.String.t<array<Glyph.t>>
+type annotatedSemanticSystem = Belt.Map.String.t<array<AnnotatedGlyph.t>>
+
+// let annotateGlyph = (ss: semanticSystem, g: Glyph.t): AnnotatedGlyph.t =>
+//   switch g {
+//     | Ref(fieldType, id) => Ref(fieldType, id)
+//     | Primitive(data) => raise(Not_found)
+//     | Set(gs) =>
+//     | Record(string, Belt.Map.String.t<t>, Belt.Map.String.t<relation>) // TODO: must include relations
+//   }
+
+exception BadAnnotate
+
+// TODO: this code is super specialized to a particular shallow representation!
+let annotateSystem = (ss: semanticSystem): annotatedSemanticSystem =>
+  ss->Belt.Map.String.mapWithKey((name, gs) =>
+    gs->Belt.Array.mapWithIndex((idx, g) =>
+      switch g {
+      | Ref(fieldType, id) => AnnotatedGlyph.Ref(fieldType, id)
+      | Primitive(data) => Primitive(j`${name}_${Belt.Int.toString(idx)}`, data)
+      | Set(gs) =>
+        Set(
+          gs->Belt.Array.map(g =>
+            switch g {
+            | Ref(fieldType, id) => AnnotatedGlyph.Ref(fieldType, id)
+            | _ => raise(BadAnnotate)
+            }
+          ),
+        )
+      | Record(fields, relations) =>
+        Record(
+          j`${name}_${Belt.Int.toString(idx)}`,
+          fields->Belt.Map.String.map(g =>
+            switch g {
+            | Ref(fieldType, id) => AnnotatedGlyph.Ref(fieldType, id)
+            | Set(gs) =>
+              Set(
+                gs->Belt.Array.map(g =>
+                  switch g {
+                  | Ref(fieldType, id) => AnnotatedGlyph.Ref(fieldType, id)
+                  | _ => raise(BadAnnotate)
+                  }
+                ),
+              )
+            | _ => raise(BadAnnotate)
+            }
+          ),
+          relations->Belt.Map.String.map(r =>
+            r->Belt.Array.map(row =>
+              row->Belt.Map.String.map(g =>
+                switch g {
+                | Ref(fieldType, id) => AnnotatedGlyph.Ref(fieldType, id)
+                | _ => raise(BadAnnotate)
+                }
+              )
+            )
+          ),
+        )
+      }
+    )
+  )
 
 // bool is whether or not the glyph size is fixed.
 // TODO: may want to push into Encoding.t
 type semanticEncoding = Belt.Map.String.t<(Encoding.t, bool)>
 
+exception PathError
+
+let rec resolveRef = (ss: annotatedSemanticSystem, name, idx): AnnotatedGlyph.t =>
+  switch (ss->Belt.Map.String.getExn(name))[idx] {
+  | Ref(name, idx) => resolveRef(ss, name, idx)
+  | g => g
+  }
+
+let resolveGlyphNameRevised = (
+  ss: annotatedSemanticSystem,
+  g: AnnotatedGlyph.t,
+  path: array<string>,
+): array<string> => {
+  let rec aux = (g: AnnotatedGlyph.t, path: list<string>) =>
+    switch (g, path) {
+    | (Ref(name, idx), path) => aux(resolveRef(ss, name, idx), path)
+    | (Primitive(name, _), list{}) => [name]
+    | (Primitive(_), list{_, ..._}) => raise(PathError)
+    | (Record(name, _, _), list{}) => [name]
+    | (Record(_, fields, _), list{field, ...path}) =>
+      aux(fields->Belt.Map.String.getExn(field), path)
+    | (Set(glyphs), path) => glyphs->Belt.Array.map(aux(_, path))->Belt.Array.concatMany
+    }
+  aux(g, path->Belt.List.fromArray)
+}
+
 exception SemanticEncodingMismatch
 
-let createGlyph = ((name: string, (glyphs: array<Glyph.t>, encoding: (Encoding.t, bool)))): array<
+let createGlyph = ((glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool))): array<
   Gestalt2.glyph,
 > =>
   glyphs
-  ->Belt.Array.mapWithIndex((i, glyph) => {
+  ->Belt.Array.map(glyph => {
     switch (glyph, encoding) {
     // TODO: really just needs to return option
     | (Ref(_), _) => []
-    | (Primitive(data), (Primitive(mark), fixedSize)) => [
+    | (Primitive(name, data), (Primitive(mark), fixedSize)) => [
         {
-          Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
+          Gestalt2.id: name,
           children: [],
           encoding: mark(data),
           fixedSize: fixedSize,
         },
       ]
     | (Set(_), _) => []
-    | (Record(_), (Record(maybeMark, _, _, _), fixedSize)) => [
+    | (Record(name, _, _), (Record(maybeMark, _, _, _), fixedSize)) => [
         {
-          Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
+          Gestalt2.id: name,
           children: [],
           encoding: switch maybeMark {
           | Some(mark) => mark
@@ -91,29 +189,20 @@ let createGlyph = ((name: string, (glyphs: array<Glyph.t>, encoding: (Encoding.t
   ->Belt.Array.concatMany
 
 // TODO: this should probably be a more elegant recursive function
-let createContains = ((name: string, glyphs: array<Glyph.t>)): array<Gestalt2.relation> =>
+let createContains = (ss: annotatedSemanticSystem, glyphs: array<AnnotatedGlyph.t>): array<
+  Gestalt2.relation,
+> =>
   glyphs
-  ->Belt.Array.mapWithIndex((i, glyph) =>
+  ->Belt.Array.map(glyph =>
     switch glyph {
     | Ref(_) => [] // TODO: should really just be an option
     | Primitive(_) => []
     | Set(_) => []
-    | Record(fields, _) => [
+    | Record(name, fields, _) => [
         {
           Gestalt2.instances: fields
           ->Belt.Map.String.valuesToArray
-          ->Belt.Array.map(g =>
-            switch g {
-            | Ref(fieldType, idx) => [
-                (j`${name}_${Belt.Int.toString(i)}`, j`${fieldType}_${Belt.Int.toString(idx)}`),
-              ]
-            | Set(elems) =>
-              elems->Belt.Array.map((Ref(fieldType, idx)) => (
-                j`${name}_${Belt.Int.toString(i)}`,
-                j`${fieldType}_${Belt.Int.toString(idx)}`,
-              ))
-            }
-          )
+          ->Belt.Array.map(g => resolveGlyphNameRevised(ss, g, [])->Belt.Array.map(n => (name, n)))
           ->Belt.Array.concatMany,
           gestalt: GestaltRelation.contains,
         },
@@ -122,28 +211,33 @@ let createContains = ((name: string, glyphs: array<Glyph.t>)): array<Gestalt2.re
   )
   ->Belt.Array.concatMany
 
-let resolveGlyph = (ss: semanticSystem, g: Glyph.t) =>
-  switch g {
-  | Ref(fieldType, i) => (ss->Belt.Map.String.getExn(fieldType))[i]
-  | _ => g
-  }
+// let resolveGlyph = (ss: semanticSystem, g: Glyph.t) =>
+//   switch g {
+//   | Ref(fieldType, i) => (ss->Belt.Map.String.getExn(fieldType))[i]
+//   | _ => g
+//   }
 
 // TODO: track nested refs to the closest ref? might be needed for sets
 // TODO: this is kind of an ugly hack since really need some nested namespaces or something
-let rec resolveIndex = (g: Glyph.t, fields) =>
+let rec resolveIndex = (g: AnnotatedGlyph.t, fields) =>
   switch g {
   | Ref(field, i) =>
     switch fields->Belt.Map.String.get(field) {
     | None => i
     | Some(glyph) => resolveIndex(glyph, fields)
     }
-  | Set(_) => Js.log("Set"); Js.log(g); raise(Not_found)
-  | Record(_) => Js.log("Record"); raise(Not_found)
+  | Set(_) =>
+    Js.log("Set")
+    Js.log(g)
+    raise(Not_found)
+  | Record(_) =>
+    Js.log("Record")
+    raise(Not_found)
   | _ => raise(Not_found)
   }
 
 /* TODO: ugly hack! */
-let rec resolveGlyphName = ((field, i), fields: Belt.Map.String.t<Glyph.t>) =>
+let rec resolveGlyphName = ((field, i), fields: Belt.Map.String.t<AnnotatedGlyph.t>) =>
   switch fields->Belt.Map.String.get(field) {
   | None => j`${field}_${i->Belt.Int.toString}`
   | Some(Ref(field, i)) => resolveGlyphName((field, i), fields)
@@ -154,33 +248,32 @@ let rec resolveGlyphName = ((field, i), fields: Belt.Map.String.t<Glyph.t>) =>
     }
   | _ => raise(Not_found)
   }
-and resolveGlyphNameRef = (Glyph.Ref(field, i), fields) => resolveGlyphName((field, i), fields)
+and resolveGlyphNameRef = (AnnotatedGlyph.Ref(field, i), fields) =>
+  resolveGlyphName((field, i), fields)
 
-let createRelations = ((
-  _name: string,
-  (glyphs: array<Glyph.t>, encoding: (Encoding.t, bool)),
-)): array<Gestalt2.relation> =>
+let cartProd = (xs, ys) =>
+  xs->Belt.Array.map(x => ys->Belt.Array.map(y => (x, y)))->Belt.Array.concatMany
+
+let createRelations = (
+  ss: annotatedSemanticSystem,
+  (glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool)),
+): array<Gestalt2.relation> =>
   glyphs
   ->Belt.Array.map(glyph =>
     switch (glyph, encoding) {
     | (Ref(_), _) => []
     | (Primitive(_), _) => []
     | (Set(_), _) => []
-    | (Record(fields, relations), (Record(_, _, derivedRelationEncodings, relationEncodings), _)) =>
+    | (
+        Record(_, fields, relations),
+        (Record(_, _, derivedRelationEncodings, relationEncodings), _),
+      ) =>
       Belt.Array.concat(
         derivedRelationEncodings->Belt.Array.map(((left, right, gestalt)) => {
-          Gestalt2.instances: [
-            (
-              j`${left}_${fields
-                ->Belt.Map.String.getExn(left)
-                ->resolveIndex(Belt.Map.String.empty)
-                ->Belt.Int.toString}`,
-              j`${right}_${fields
-                ->Belt.Map.String.getExn(right)
-                ->resolveIndex(Belt.Map.String.empty)
-                ->Belt.Int.toString}`,
-            ),
-          ],
+          Gestalt2.instances: cartProd(
+            resolveGlyphNameRevised(ss, glyph, left),
+            resolveGlyphNameRevised(ss, glyph, right),
+          ),
           gestalt: gestalt,
         }),
         {
@@ -197,10 +290,15 @@ let createRelations = ((
           relationsAndEncodings
           ->Belt.Map.String.valuesToArray
           ->Belt.Array.map(((instances, (left, right, gestalt))) => {
-            Gestalt2.instances: instances->Belt.Array.map(relFields => (
-              relFields->Belt.Map.String.getExn(left)->resolveGlyphNameRef(fields),
-              relFields->Belt.Map.String.getExn(right)->resolveGlyphNameRef(fields),
-            )),
+            Gestalt2.instances: instances
+            ->Belt.Array.map(relFields =>
+              cartProd(
+                /* TODO: last spot!!! Semantics are not super great here so will have to revise */
+                [relFields->Belt.Map.String.getExn(left[0])->resolveGlyphNameRef(fields)],
+                [relFields->Belt.Map.String.getExn(right[0])->resolveGlyphNameRef(fields)],
+              )
+            )
+            ->Belt.Array.concatMany,
             gestalt: gestalt,
           })
         },
@@ -214,6 +312,8 @@ let createRelations = ((
 let toGestalt = (ss: semanticSystem, se: semanticEncoding): Gestalt2.system => {
   open! Belt
 
+  let ss = annotateSystem(ss)
+
   // pair up data with its encoding
   let sse = Map.String.merge(ss, se, (_, oss, ose) =>
     switch (oss, ose) {
@@ -222,11 +322,11 @@ let toGestalt = (ss: semanticSystem, se: semanticEncoding): Gestalt2.system => {
     }
   )
 
-  let glyphs = sse->Map.String.toArray->Array.map(createGlyph)->Array.concatMany
+  let glyphs = sse->Map.String.valuesToArray->Array.map(createGlyph)->Array.concatMany
 
   let relations = Array.concat(
-    ss->Map.String.toArray->Array.map(createContains)->Array.concatMany,
-    sse->Map.String.toArray->Array.map(createRelations)->Array.concatMany,
+    ss->Map.String.valuesToArray->Array.map(createContains(ss))->Array.concatMany,
+    sse->Map.String.valuesToArray->Array.map(createRelations(ss))->Array.concatMany,
   )
 
   Js.log2("glyphs", glyphs)

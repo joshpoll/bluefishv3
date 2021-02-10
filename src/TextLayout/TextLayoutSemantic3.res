@@ -90,8 +90,8 @@ let semanticEncoding = {
           None,
           toMap([]),
           [
-            ("num", "name", GestaltRelation.hAlignedGap(Num(9.5), Bottom)),
-            ("name", "instructors", GestaltRelation.vAlignedGap(Num(2.), Left)),
+            (["num"], ["name"], GestaltRelation.hAlignedGap(Num(9.5), Bottom)),
+            (["name"], ["instructors"], GestaltRelation.vAlignedGap(Num(2.), Left)),
           ],
           toMap([]),
         ),
@@ -109,8 +109,8 @@ let semanticEncoding = {
             (
               "sibling",
               (
-                "curr",
-                "next",
+                ["curr"],
+                ["next"],
                 GestaltRelation.combine(GestaltRelation.vGap(Num(10.)), GestaltRelation.leftAlign),
               ),
             ),

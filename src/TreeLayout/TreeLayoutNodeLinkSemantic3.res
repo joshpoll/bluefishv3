@@ -147,12 +147,7 @@ let semanticEncoding = {
                 height="20"
                 x={left->Js.Float.toString}
                 y={top->Js.Float.toString}
-                style={ReactDOM.Style.make(
-                  ~fillOpacity="0",
-                  ~stroke="black",
-                  ~strokeWidth="2",
-                  (),
-                )}
+                style={ReactDOM.Style.make(~fillOpacity="0", ~stroke="black", ~strokeWidth="2", ())}
               />,
           ),
           toMap([]),
@@ -169,7 +164,7 @@ let semanticEncoding = {
           None,
           toMap([]),
           [],
-          toMap([("sibling", ("curr", "next", GestaltRelation.hAlignedGap(Num(10.), Top)))]),
+          toMap([("sibling", (["curr"], ["next"], GestaltRelation.hAlignedGap(Num(10.), Top)))]),
         ),
         false,
       ),
@@ -180,7 +175,20 @@ let semanticEncoding = {
         Record(
           None,
           toMap([]),
-          [("data", "children", GestaltRelation.vAlignedGap(Num(20.), CenterX))],
+          // TODO: desired, but need to implement some simple selection to do this
+          // split string at `.` then feed the list of strings to some sort of selector function
+          // `children` gets the `children` glyph
+          // `elems` gets every element of the `elems` set in the `children` glyph
+          // `data` gets every `data` corresponding to each `elems` glyph
+          // desired: `children.elems.data`
+          [
+            (["data"], ["children"], GestaltRelation.vAlignedGap(Num(20.), CenterX)),
+            (
+              ["data"],
+              ["children", "elems", "data"],
+              GestaltRelation.link,
+            ),
+          ],
           toMap([]),
         ),
         false,
@@ -189,3 +197,22 @@ let semanticEncoding = {
     ("canvas", (Record(None, toMap([]), [], toMap([])), false)),
   ])
 }
+
+/*
+
+children : {
+  elems : set node
+  rel sibling : {curr : elems, next : elems}
+}
+
+node : {
+  data : data
+  child : set(node) {a1, a2}
+  parent : set(node)
+
+  parent_sibling : lone node
+  child_sibling  : lone node
+
+}
+
+ */
