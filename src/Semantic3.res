@@ -39,7 +39,8 @@ module Encoding = {
   type mark = (data, KiwiGlyph.bbox) => React.element
   type recordMark = option<KiwiGlyph.bbox => React.element>
 
-  type relation = (path, path, GestaltRelation.gestaltRelation)
+  type derivedRelation = (path, path, GestaltRelation.gestaltRelation)
+  type relation = (field, field, GestaltRelation.gestaltRelation)
 
   // TODO: this is weird because it's unclear who "owns" the rendering of glyphs
   type rec t =
@@ -49,7 +50,7 @@ module Encoding = {
     // anonymous (auto-derived) relations and explicit relations
     // todo: remove second arg? it's supposed to be for specifying layout of children defined in the
     // same place. But for this IR we're basically banning that. That's for the IR above this one.
-    | Record(recordMark, Belt.Map.String.t<t>, array<relation>, Belt.Map.String.t<relation>)
+    | Record(recordMark, Belt.Map.String.t<t>, array<derivedRelation>, Belt.Map.String.t<relation>)
 }
 
 // type relation =
@@ -294,8 +295,10 @@ let createRelations = (
             ->Belt.Array.map(relFields =>
               cartProd(
                 /* TODO: last spot!!! Semantics are not super great here so will have to revise */
-                [relFields->Belt.Map.String.getExn(left[0])->resolveGlyphNameRef(fields)],
-                [relFields->Belt.Map.String.getExn(right[0])->resolveGlyphNameRef(fields)],
+                // This is doing a more local lookup than the other spots, which is why the behavior
+                // is different.
+                [relFields->Belt.Map.String.getExn(left)->resolveGlyphNameRef(fields)],
+                [relFields->Belt.Map.String.getExn(right)->resolveGlyphNameRef(fields)],
               )
             )
             ->Belt.Array.concatMany,

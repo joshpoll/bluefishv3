@@ -164,7 +164,7 @@ let semanticEncoding = {
           None,
           toMap([]),
           [],
-          toMap([("sibling", (["curr"], ["next"], GestaltRelation.hAlignedGap(Num(10.), Top)))]),
+          toMap([("sibling", ("curr", "next", GestaltRelation.hAlignedGap(Num(10.), Top)))]),
         ),
         false,
       ),
@@ -183,11 +183,7 @@ let semanticEncoding = {
           // desired: `children.elems.data`
           [
             (["data"], ["children"], GestaltRelation.vAlignedGap(Num(20.), CenterX)),
-            (
-              ["data"],
-              ["children", "elems", "data"],
-              GestaltRelation.link,
-            ),
+            (["data"], ["children", "elems", "data"], GestaltRelation.link),
           ],
           toMap([]),
         ),
