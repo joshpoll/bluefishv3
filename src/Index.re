@@ -27,9 +27,34 @@ let makeContainer = text => {
   content;
 };
 
+// ReactDOMRe.render(
+//   KiwiGlyph.render(
+//     Semantic3.toGestalt(
+//       BipartiteThreeStructures.semanticSystem,
+//       BipartiteThreeStructures.semanticEncoding,
+//     )
+//     ->Gestalt2.Lower.system,
+//   ),
+//   makeContainer("Bipartite Graph Three Structures Test"),
+// );
+
 ReactDOMRe.render(
   KiwiGlyph.render(
-    Semantic3.toGestalt(TreeLayoutNodeLinkSemantic3.semanticSystem, TreeLayoutNodeLinkSemantic3.semanticEncoding)
+    Semantic3.toGestalt(
+      BipartiteOneStructure.semanticSystem,
+      BipartiteOneStructure.semanticEncoding,
+    )
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Bipartite Graph One Structure Test"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(
+      TreeLayoutNodeLinkSemantic3.semanticSystem,
+      TreeLayoutNodeLinkSemantic3.semanticEncoding,
+    )
     ->Gestalt2.Lower.system,
   ),
   makeContainer("Semantic3 Node-Link Tree Test"),
@@ -37,7 +62,10 @@ ReactDOMRe.render(
 
 ReactDOMRe.render(
   KiwiGlyph.render(
-    Semantic3.toGestalt(TreeLayoutIcicleSemantic3.semanticSystem, TreeLayoutIcicleSemantic3.semanticEncoding)
+    Semantic3.toGestalt(
+      TreeLayoutIcicleSemantic3.semanticSystem,
+      TreeLayoutIcicleSemantic3.semanticEncoding,
+    )
     ->Gestalt2.Lower.system,
   ),
   makeContainer("Semantic3 Icicle Tree Test"),

@@ -4,6 +4,27 @@ open Semantic3
 
 let toMap = Belt.Map.String.fromArray
 
+/* 
+
+annotation : text
+
+data : {
+  annotation : annotation
+}
+
+
+data-children.elems.data
+
+node : {
+  data : data
+  children : {
+    elems : set(node)
+    rel sibling : {curr: elems, next: elems}
+  }
+}
+
+ */
+
 let semanticSystem = {
   open Glyph
   toMap([
@@ -199,6 +220,26 @@ let semanticEncoding = {
 children : {
   elems : set node
   rel sibling : {curr : elems, next : elems}
+}
+
+list('a) = {
+  elems : set('a)
+  sibling : {curr: elems, next: elems}
+}
+
+node : {
+  data : data
+  child : list(node)
+  parent : list(node)
+
+  child : {
+    elems : set(node)
+    sibling : {curr: elems, next: elems}
+  }
+  parent : {
+    elems : set(node)
+    sibling : {curr: elems, next: elems}
+  }
 }
 
 node : {
