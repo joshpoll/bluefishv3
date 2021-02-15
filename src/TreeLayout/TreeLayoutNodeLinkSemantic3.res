@@ -164,7 +164,7 @@ let semanticEncoding: Semantic3.semanticEncoding = {
           Some(
             ({KiwiGlyph.left: left, top}) =>
               <rect
-                width="60"
+                width="80"
                 height="20"
                 x={left->Js.Float.toString}
                 y={top->Js.Float.toString}
@@ -175,7 +175,12 @@ let semanticEncoding: Semantic3.semanticEncoding = {
           [],
           toMap([]),
         ),
-        None,
+        Some({
+          Gestalt2.left: (TightGe, Num(5.)),
+          right: (TightGe, Num(5.)),
+          top: (TightGe, Num(0.)),
+          bottom: (TightGe, Num(0.)),
+        }),
         true,
       ),
     ),

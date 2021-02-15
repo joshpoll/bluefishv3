@@ -148,11 +148,11 @@ let semanticEncoding: Semantic3.semanticEncoding = {
       (
         Record(
           Some(
-            Mark.rect(
+            Mark.ellipse(
               ReactDOM.Style.make(
                 ~fill="blue",
-                ~fillOpacity="0.1",
-                // ~stroke="black",
+                ~fillOpacity="0.3",
+                ~stroke="black",
                 // ~strokeWidth="3",
                 (),
               ),
@@ -163,7 +163,12 @@ let semanticEncoding: Semantic3.semanticEncoding = {
           [],
           toMap([("sibling", ("curr", "next", GestaltRelation.vAlignedGap(Num(20.), CenterX)))]),
         ),
-        None,
+        Some({
+          Gestalt2.left: (Eq, Num(20.)),
+          right: (Eq, Num(20.)),
+          top: (Eq, Num(20.)),
+          bottom: (Eq, Num(20.)),
+        }),
         false,
       ),
     ),
@@ -172,11 +177,11 @@ let semanticEncoding: Semantic3.semanticEncoding = {
       (
         Record(
           Some(
-            Mark.rect(
+            Mark.ellipse(
               ReactDOM.Style.make(
                 ~fill="green",
-                ~fillOpacity="0.1",
-                // ~stroke="black",
+                ~fillOpacity="0.3",
+                ~stroke="black",
                 // ~strokeWidth="3",
                 (),
               ),
@@ -187,7 +192,12 @@ let semanticEncoding: Semantic3.semanticEncoding = {
           [],
           toMap([("sibling", ("curr", "next", GestaltRelation.vAlignedGap(Num(20.), CenterX)))]),
         ),
-        None,
+        Some({
+          Gestalt2.left: (Eq, Num(20.)),
+          right: (Eq, Num(20.)),
+          top: (Ge, Num(20.)),
+          bottom: (Eq, Num(20.)),
+        }),
         false,
       ),
     ),
@@ -197,7 +207,16 @@ let semanticEncoding: Semantic3.semanticEncoding = {
         Record(
           None,
           toMap([]),
-          [(["U"], ["V"], GestaltRelation.hAlignedGap(Num(100.), CenterY))],
+          [
+            (
+              ["U"],
+              ["V"],
+              GestaltRelation.combine(
+                GestaltRelation.hAlignedGap(Num(100.), CenterY),
+                GestaltRelation.heightAlign,
+              ),
+            ),
+          ],
           toMap([("E", ("from", "to", GestaltRelation.link))]),
         ),
         None,

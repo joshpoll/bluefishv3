@@ -126,6 +126,15 @@ let widthAlign: gestaltRelation = fromRelConstraint(((g1, g2)) => [
   },
 ])
 
+let heightAlign: gestaltRelation = fromRelConstraint(((g1, g2)) => [
+  {
+    KiwiGlyph.lhs: AExpr(Var(j`${g1}.height`)),
+    op: Eq,
+    rhs: AExpr(Var(j`${g2}.height`)),
+    strength: strong,
+  },
+])
+
 let contains = (~tight=false): gestaltRelation =>
   fromRelConstraint(((g1, g2)) => [
     {
