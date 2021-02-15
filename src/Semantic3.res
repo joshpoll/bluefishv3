@@ -126,7 +126,7 @@ let annotateSystem = (ss: semanticSystem): annotatedSemanticSystem =>
 
 // bool is whether or not the glyph size is fixed.
 // TODO: may want to push into Encoding.t
-type semanticEncoding = Belt.Map.String.t<(Encoding.t, bool)>
+type semanticEncoding = Belt.Map.String.t<(Encoding.t, option<Gestalt2.padding>, bool)>
 
 exception PathError
 
@@ -156,28 +156,29 @@ let resolveGlyphNameRevised = (
 
 exception SemanticEncodingMismatch
 
-let createGlyph = ((glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool))): array<
-  Gestalt2.glyph,
-> =>
+let createGlyph = ((
+  glyphs: array<AnnotatedGlyph.t>,
+  encoding: (Encoding.t, option<Gestalt2.padding>, bool),
+)): array<Gestalt2.glyph> =>
   glyphs
   ->Belt.Array.map(glyph => {
     switch (glyph, encoding) {
     // TODO: really just needs to return option
     | (Ref(_), _) => []
-    | (Primitive(name, data), (Primitive(mark), fixedSize)) => [
+    | (Primitive(name, data), (Primitive(mark), padding, fixedSize)) => [
         {
           Gestalt2.id: name,
-          padding: None,
+          padding: padding,
           children: [],
           encoding: mark(data),
           fixedSize: fixedSize,
         },
       ]
     | (Set(_), _) => []
-    | (Record(name, _, _), (Record(maybeMark, _, _, _), fixedSize)) => [
+    | (Record(name, _, _), (Record(maybeMark, _, _, _), padding, fixedSize)) => [
         {
           Gestalt2.id: name,
-          padding: None,
+          padding: padding,
           children: [],
           encoding: switch maybeMark {
           | Some(mark) => mark
@@ -265,7 +266,7 @@ let cartProd = (xs, ys) =>
 
 let createRelations = (
   ss: annotatedSemanticSystem,
-  (glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool)),
+  (glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, option<Gestalt2.padding>, bool)),
 ): array<Gestalt2.relation> =>
   glyphs
   ->Belt.Array.map(glyph =>
@@ -275,7 +276,7 @@ let createRelations = (
     | (Set(_), _) => []
     | (
         Record(_, fields, relations),
-        (Record(_, _, derivedRelationEncodings, relationEncodings), _),
+        (Record(_, _, derivedRelationEncodings, relationEncodings), _, _),
       ) =>
       Belt.Array.concat(
         derivedRelationEncodings->Belt.Array.map(((left, right, gestalt)) => {

@@ -156,12 +156,12 @@ let semanticSystem = {
   ])
 }
 
-let semanticEncoding = {
+let semanticEncoding: Semantic3.semanticEncoding = {
   open Encoding
   toMap([
     (
       "annotation",
-      (Primitive(Mark.text(ReactDOM.Style.make(~font="light 18px sans-serif", ()))), true),
+      (Primitive(Mark.text(ReactDOM.Style.make(~font="light 18px sans-serif", ()))), None, true),
     ),
     (
       "data",
@@ -183,6 +183,12 @@ let semanticEncoding = {
           [],
           toMap([]),
         ),
+        Some({
+          Gestalt2.left: (TightGe, Num(5.)),
+          right: (TightGe, Num(5.)),
+          top: (TightGe, Num(0.)),
+          bottom: (TightGe, Num(0.)),
+        }),
         false,
       ),
     ),
@@ -195,6 +201,7 @@ let semanticEncoding = {
           [],
           toMap([("sibling", ("curr", "next", GestaltRelation.hAlignedGap(Num(5.), Top)))]),
         ),
+        None,
         false,
       ),
     ),
@@ -204,12 +211,22 @@ let semanticEncoding = {
         Record(
           None,
           toMap([]),
-          [(["data"], ["children"], GestaltRelation.vAlignedGap(Num(5.), CenterX))],
+          [
+            (
+              ["data"],
+              ["children"],
+              GestaltRelation.combine(
+                GestaltRelation.vAlignedGap(Num(5.), CenterX),
+                GestaltRelation.widthAlign,
+              ),
+            ),
+          ],
           toMap([]),
         ),
+        None,
         false,
       ),
     ),
-    ("canvas", (Record(None, toMap([]), [], toMap([])), false)),
+    ("canvas", (Record(None, toMap([]), [], toMap([])), None, false)),
   ])
 }

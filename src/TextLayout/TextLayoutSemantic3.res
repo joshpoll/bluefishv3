@@ -77,15 +77,21 @@ let semanticSystem = {
   ])
 }
 
-let semanticEncoding = {
+let semanticEncoding: Semantic3.semanticEncoding = {
   open Encoding
   toMap([
     (
       "instructors",
-      (Primitive(Mark.text(ReactDOM.Style.make(~font="italic 16px serif", ()))), true),
+      (Primitive(Mark.text(ReactDOM.Style.make(~font="italic 16px serif", ()))), None, true),
     ),
-    ("name", (Primitive(Mark.text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), true)),
-    ("num", (Primitive(Mark.text(ReactDOM.Style.make(~font="18px light sans-serif", ()))), true)),
+    (
+      "name",
+      (Primitive(Mark.text(ReactDOM.Style.make(~font="bold 18px sans-serif", ()))), None, true),
+    ),
+    (
+      "num",
+      (Primitive(Mark.text(ReactDOM.Style.make(~font="18px light sans-serif", ()))), None, true),
+    ),
     (
       "course",
       (
@@ -98,6 +104,7 @@ let semanticEncoding = {
           ],
           toMap([]),
         ),
+        None,
         false,
       ),
     ),
@@ -119,9 +126,10 @@ let semanticEncoding = {
             ),
           ]),
         ),
+        None,
         false,
       ),
     ),
-    ("canvas", (Record(None, toMap([]), [], toMap([])), false)),
+    ("canvas", (Record(None, toMap([]), [], toMap([])), None, false)),
   ])
 }

@@ -4,7 +4,7 @@ open Semantic3
 
 let toMap = Belt.Map.String.fromArray
 
-/* 
+/*
 
 annotation : text
 
@@ -150,12 +150,12 @@ let semanticSystem = {
   ])
 }
 
-let semanticEncoding = {
+let semanticEncoding: Semantic3.semanticEncoding = {
   open Encoding
   toMap([
     (
       "annotation",
-      (Primitive(Mark.text(ReactDOM.Style.make(~font="light 18px sans-serif", ()))), true),
+      (Primitive(Mark.text(ReactDOM.Style.make(~font="light 18px sans-serif", ()))), None, true),
     ),
     (
       "data",
@@ -175,6 +175,7 @@ let semanticEncoding = {
           [],
           toMap([]),
         ),
+        None,
         true,
       ),
     ),
@@ -187,6 +188,7 @@ let semanticEncoding = {
           [],
           toMap([("sibling", ("curr", "next", GestaltRelation.hAlignedGap(Num(10.), Top)))]),
         ),
+        None,
         false,
       ),
     ),
@@ -208,10 +210,11 @@ let semanticEncoding = {
           ],
           toMap([]),
         ),
+        None,
         false,
       ),
     ),
-    ("canvas", (Record(None, toMap([]), [], toMap([])), false)),
+    ("canvas", (Record(None, toMap([]), [], toMap([])), None, false)),
   ])
 }
 

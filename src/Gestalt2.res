@@ -53,8 +53,16 @@ type system = {
 }
 
 let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
-  switch op {
-  | Eq => [
+  switch (direction, op) {
+  | ("left", Eq) | ("top", Eq) => [
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Eq,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.required,
+      },
+    ]
+  | ("right", Eq) | ("bottom", Eq) => [
       {
         lhs: AExpr(Var(j`${gid}.${direction}`)),
         op: KiwiGlyph.Eq,
@@ -62,7 +70,15 @@ let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
         strength: Kiwi.Strength.required,
       },
     ]
-  | Le => [
+  | ("left", Le) | ("top", Le) => [
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Le,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.required,
+      },
+    ]
+  | ("right", Le) | ("bottom", Le) => [
       {
         lhs: AExpr(Var(j`${gid}.${direction}`)),
         op: KiwiGlyph.Le,
@@ -70,7 +86,15 @@ let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
         strength: Kiwi.Strength.required,
       },
     ]
-  | Ge => [
+  | ("left", Ge) | ("top", Ge) => [
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Ge,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.required,
+      },
+    ]
+  | ("right", Ge) | ("bottom", Ge) => [
       {
         lhs: AExpr(Var(j`${gid}.${direction}`)),
         op: KiwiGlyph.Ge,
@@ -78,7 +102,21 @@ let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
         strength: Kiwi.Strength.required,
       },
     ]
-  | TightLe => [
+  | ("left", TightLe) | ("top", TightLe) => [
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Le,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.required,
+      },
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Eq,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.weak,
+      },
+    ]
+  | ("right", TightLe) | ("bottom", TightLe) => [
       {
         lhs: AExpr(Var(j`${gid}.${direction}`)),
         op: KiwiGlyph.Le,
@@ -92,7 +130,21 @@ let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
         strength: Kiwi.Strength.weak,
       },
     ]
-  | TightGe => [
+  | ("left", TightGe) | ("top", TightGe) => [
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Ge,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.required,
+      },
+      {
+        lhs: AExpr(Var(j`${gid}_padding.${direction}`)),
+        op: KiwiGlyph.Eq,
+        rhs: AExpr(Add(Var(j`${gid}.${direction}`), expr)),
+        strength: Kiwi.Strength.weak,
+      },
+    ]
+  | ("right", TightGe) | ("bottom", TightGe) => [
       {
         lhs: AExpr(Var(j`${gid}.${direction}`)),
         op: KiwiGlyph.Ge,
@@ -106,6 +158,7 @@ let paddingConstraint = (gid, direction, (op, expr)): KiwiGlyph.constraints =>
         strength: Kiwi.Strength.weak,
       },
     ]
+  | _ => raise(Not_found) /* TODO: really just need a direction enum */
   }
 
 let paddingConstraints = (g: glyph): KiwiGlyph.constraints => {
