@@ -192,78 +192,91 @@ let system = {
   glyphs: [
     {
       id: "node0",
+      padding: None,
       children: [], // "data0", "children0"
       encoding: _ => <> </>, // transparent
       fixedSize: false,
     },
     {
       id: "data0",
+      padding: None,
       children: [],
       encoding: nodeEncoding("black"),
       fixedSize: false,
     },
     {
       id: "annotation0",
+      padding: None,
       children: [], // "annotation0"
       encoding: textEncoding("MulExp", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "children0",
+      padding: None,
       children: [], // "elems0" set = {"node1", "node2"}
       encoding: _ => <> </>, // transparent
       fixedSize: false,
     },
     {
       id: "node1",
+      padding: None,
       children: [], // "data1", "children1"
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "data1",
+      padding: None,
       children: [], // "annotation1"
       encoding: nodeEncoding("black"),
       fixedSize: false,
     },
     {
       id: "annotation1",
+      padding: None,
       children: [],
       encoding: textEncoding("\"-\"", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "children1",
+      padding: None,
       children: [], // "elems1" set = {}
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "node2",
+      padding: None,
       children: [], // "data1", "children1"
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "data2",
+      padding: None,
       children: [], // "annotation2"
       encoding: nodeEncoding("black"),
       fixedSize: false,
     },
     {
       id: "annotation2",
+      padding: None,
       children: [],
       encoding: textEncoding("num", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "children2",
+      padding: None,
       children: [], // "elems1" set = {}
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "canvas",
+      padding: None,
       children: [], // "node0"
       encoding: _ => <> </>,
       fixedSize: false,

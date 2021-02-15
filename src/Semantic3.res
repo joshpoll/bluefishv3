@@ -167,6 +167,7 @@ let createGlyph = ((glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool
     | (Primitive(name, data), (Primitive(mark), fixedSize)) => [
         {
           Gestalt2.id: name,
+          padding: None,
           children: [],
           encoding: mark(data),
           fixedSize: fixedSize,
@@ -176,6 +177,7 @@ let createGlyph = ((glyphs: array<AnnotatedGlyph.t>, encoding: (Encoding.t, bool
     | (Record(name, _, _), (Record(maybeMark, _, _, _), fixedSize)) => [
         {
           Gestalt2.id: name,
+          padding: None,
           children: [],
           encoding: switch maybeMark {
           | Some(mark) => mark
@@ -203,9 +205,15 @@ let createContains = (ss: annotatedSemanticSystem, glyphs: array<AnnotatedGlyph.
         {
           Gestalt2.instances: fields
           ->Belt.Map.String.valuesToArray
-          ->Belt.Array.map(g => resolveGlyphNameRevised(ss, g, [])->Belt.Array.map(n => (name, n)))
+          ->Belt.Array.map(g =>
+            resolveGlyphNameRevised(ss, g, [])->Belt.Array.map(n => (name ++ "_padding", n))
+          )
           ->Belt.Array.concatMany,
           gestalt: GestaltRelation.contains,
+        },
+        {
+          instances: [(name, name ++ "_padding")],
+          gestalt: GestaltRelation.weakContains,
         },
       ]
     }
@@ -381,6 +389,7 @@ let toGestalt = (ss: semanticSystem, se: semanticEncoding): Gestalt2.system => {
       [
         {
           id: "canvas",
+          padding: None,
           children: [],
           encoding: _ => <> </>,
           fixedSize: false,

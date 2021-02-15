@@ -112,6 +112,7 @@ let system = {
   glyphs: [
     {
       id: "courseName1",
+      padding: None,
       children: [],
       encoding: textEncoding(
         "Software Studio",
@@ -121,6 +122,7 @@ let system = {
     },
     {
       id: "courseName2",
+      padding: None,
       children: [],
       encoding: textEncoding(
         "Engineering Interactive Technologies",
@@ -130,6 +132,7 @@ let system = {
     },
     {
       id: "courseName3",
+      padding: None,
       children: [],
       encoding: textEncoding(
         "Principles and Practice of Assistive Technology",
@@ -139,24 +142,28 @@ let system = {
     },
     {
       id: "courseNum1",
+      padding: None,
       children: [],
       encoding: textEncoding("6.170", ReactDOM.Style.make(~font="18px light sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "courseNum2",
+      padding: None,
       children: [],
       encoding: textEncoding("6.810", ReactDOM.Style.make(~font="18px light sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "courseNum3",
+      padding: None,
       children: [],
       encoding: textEncoding("6.811", ReactDOM.Style.make(~font="18px light sans-serif", ())),
       fixedSize: true,
     },
     {
       id: "instructors1",
+      padding: None,
       children: [],
       encoding: textEncoding(
         "Jackson & Satyanarayan",
@@ -166,12 +173,14 @@ let system = {
     },
     {
       id: "instructors2",
+      padding: None,
       children: [],
       encoding: textEncoding("Mueller", ReactDOM.Style.make(~font="italic 16px serif", ())),
       fixedSize: true,
     },
     {
       id: "instructors3",
+      padding: None,
       children: [],
       encoding: textEncoding(
         "Miller, Greenberg, Keane",
@@ -181,24 +190,28 @@ let system = {
     },
     {
       id: "course1",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "course2",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "course3",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "canvas",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,

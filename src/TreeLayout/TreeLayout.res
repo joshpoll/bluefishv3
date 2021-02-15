@@ -184,6 +184,7 @@ let system = {
   glyphs: [
     {
       id: "data0",
+      padding: None,
       children: [],
       encoding: nodeEncoding(10., "black"),
       // textEncoding("0", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
@@ -191,6 +192,7 @@ let system = {
     },
     {
       id: "annotation0",
+      padding: None,
       children: [],
       encoding: encoding("red"),
       // TODO: text scaling doesn't work correctly
@@ -199,18 +201,21 @@ let system = {
     },
     {
       id: "data1",
+      padding: None,
       children: [],
       encoding: nodeEncoding(10., "black"),
       fixedSize: true,
     },
     {
       id: "data2",
+      padding: None,
       children: [],
       encoding: nodeEncoding(10., "black"),
       fixedSize: true,
     },
     {
       id: "annotation1",
+      padding: None,
       children: [],
       encoding: encoding("blue"),
       // textEncoding("1", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
@@ -218,6 +223,7 @@ let system = {
     },
     {
       id: "annotation2",
+      padding: None,
       children: [],
       encoding: encoding("green"),
       // textEncoding("2", ReactDOM.Style.make(~font="bold 18px sans-serif", ())),
@@ -225,42 +231,49 @@ let system = {
     },
     {
       id: "node0",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "children0",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "node1",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "children1",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "node2",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "children2",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,
     },
     {
       id: "canvas",
+      padding: None,
       children: [],
       encoding: _ => <> </>,
       fixedSize: false,

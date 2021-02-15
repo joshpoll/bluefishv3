@@ -125,11 +125,11 @@ ReactDOMRe.render(
   makeContainer("Text Layout Gestalt"),
 );
 
-ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
+// ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
 
 ReactDOMRe.render(KiwiGlyph.render(SquareInCircle.system), makeContainer("Square in Circle"));
 
-ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
+// ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
 
 // ReactDOMRe.render(
 //   KiwiGlyph.render(

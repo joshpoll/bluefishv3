@@ -38,6 +38,7 @@ let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt2.g
   | (Primitive(datas), Glyph(encodingFn, fixedSize)) =>
     datas->Belt.Array.mapWithIndex((i, data) => {
       Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
+      padding: None,
       children: [],
       encoding: encodingFn(data),
       fixedSize: fixedSize,
@@ -45,6 +46,7 @@ let createGlyph = ((name: string, (r: relation, e: encoding))): array<Gestalt2.g
   | (Relation(_, datas), Gestalt(encoding, fixedSize, _)) =>
     datas->Belt.Array.mapWithIndex((i, _) => {
       Gestalt2.id: j`${name}_${Belt.Int.toString(i)}`,
+      padding: None,
       children: [],
       encoding: switch encoding {
       | Some(e) => e
@@ -152,6 +154,7 @@ let toGestalt = (s: semanticSystem, ge: gestaltEncoding): Gestalt2.system => {
       [
         {
           id: "canvas",
+          padding: None,
           children: [],
           encoding: _ => <> </>,
           fixedSize: false,

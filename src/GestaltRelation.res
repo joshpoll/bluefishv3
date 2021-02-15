@@ -132,7 +132,7 @@ let contains = (~tight=false): gestaltRelation =>
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.left`)),
       op: Le,
       rhs: AExpr(Var(j`${g2}.left`)),
-      strength: strong,
+      strength: required,
     },
     {
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.left`)),
@@ -148,7 +148,7 @@ let contains = (~tight=false): gestaltRelation =>
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.right`)),
       op: Ge,
       rhs: AExpr(Var(j`${g2}.right`)),
-      strength: strong,
+      strength: required,
     },
     {
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.right`)),
@@ -164,7 +164,7 @@ let contains = (~tight=false): gestaltRelation =>
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.top`)),
       op: Le,
       rhs: AExpr(Var(j`${g2}.top`)),
-      strength: strong,
+      strength: required,
     },
     {
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.top`)),
@@ -180,7 +180,7 @@ let contains = (~tight=false): gestaltRelation =>
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.bottom`)),
       op: Ge,
       rhs: AExpr(Var(j`${g2}.bottom`)),
-      strength: strong,
+      strength: required,
     },
     {
       KiwiGlyph.lhs: AExpr(Var(j`${g1}.bottom`)),
@@ -271,3 +271,30 @@ let link = ((g1, g2)) => {
     ],
   }
 }
+
+let weakContains: gestaltRelation = fromRelConstraint(((g1, g2)) => [
+  {
+    KiwiGlyph.lhs: AExpr(Var(j`${g1}.left`)),
+    op: Le,
+    rhs: AExpr(Var(j`${g2}.left`)),
+    strength: required,
+  },
+  {
+    KiwiGlyph.lhs: AExpr(Var(j`${g1}.right`)),
+    op: Ge,
+    rhs: AExpr(Var(j`${g2}.right`)),
+    strength: required,
+  },
+  {
+    KiwiGlyph.lhs: AExpr(Var(j`${g1}.top`)),
+    op: Le,
+    rhs: AExpr(Var(j`${g2}.top`)),
+    strength: required,
+  },
+  {
+    KiwiGlyph.lhs: AExpr(Var(j`${g1}.bottom`)),
+    op: Ge,
+    rhs: AExpr(Var(j`${g2}.bottom`)),
+    strength: required,
+  },
+])

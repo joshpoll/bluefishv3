@@ -298,7 +298,10 @@ module Layout = {
     strength: strength,
   }
 
-  let glyph = ({id, children}) => {KiwiBBox.id: id, children: children}
+  let glyph = ({id, children}) => [
+    {KiwiBBox.id: id, children: []},
+    {KiwiBBox.id: id ++ "_padding", children: children},
+  ]
 
   let measureNaturalDimensions = (g: glyph): (float, float) => {
     // TODO: feed in a smarter dummy encoding or cut the amount of bbox information sent to encoding
@@ -383,7 +386,7 @@ module Layout = {
     {
       KiwiBBox.variables: Array.concat(variables, scaleVars)->Array.map(variable),
       constraints: Array.concat(constraints, scaleConstraints)->Array.map(constraint_),
-      bboxes: glyphs->Array.map(glyph),
+      bboxes: glyphs->Array.map(glyph)->Array.concatMany,
     }
   }
 }

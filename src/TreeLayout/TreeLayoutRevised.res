@@ -161,60 +161,70 @@ let system = {
   glyphs: [
     {
       id: "node0",
+      padding: None,
       children: [], // "data0", "children0"
       encoding: _ => <> </>, // transparent
       fixedSize: false,
     },
     {
       id: "data0",
+      padding: None,
       children: [],
       encoding: nodeEncoding(30., "black"),
       fixedSize: true,
     },
     {
       id: "children0",
+      padding: None,
       children: [], // "elems0" set = {"node1", "node2"}
       encoding: _ => <> </>, // transparent
       fixedSize: false,
     },
     {
       id: "node1",
+      padding: None,
       children: [], // "data1", "children1"
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "data1",
+      padding: None,
       children: [],
       encoding: nodeEncoding(30., "black"),
       fixedSize: true,
     },
     {
       id: "children1",
+      padding: None,
       children: [], // "elems1" set = {}
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "node2",
+      padding: None,
       children: [], // "data1", "children1"
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "data2",
+      padding: None,
       children: [],
       encoding: nodeEncoding(30., "black"),
       fixedSize: true,
     },
     {
       id: "children2",
+      padding: None,
       children: [], // "elems1" set = {}
       encoding: _ => <> </>, // transparent/group
       fixedSize: false,
     },
     {
       id: "canvas",
+      padding: None,
       children: [], // "node0"
       encoding: _ => <> </>,
       fixedSize: false,
