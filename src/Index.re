@@ -40,6 +40,14 @@ let makeContainer = text => {
 
 ReactDOMRe.render(
   KiwiGlyph.render(
+    Semantic3.toGestalt(PowerSet.semanticSystem, PowerSet.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Power Set Test"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
     Semantic3.toGestalt(
       BipartiteOneStructure.semanticSystem,
       BipartiteOneStructure.semanticEncoding,
