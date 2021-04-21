@@ -21,15 +21,15 @@ let system = {
   Gestalt2.variables: [
     {
       id: "numNameGap",
-      varOpt: Suggest(18., strong),
+      varOpt: Suggest(3., strong),
     },
     {
       id: "nameInstrsGap",
-      varOpt: Suggest(2., strong),
+      varOpt: Suggest(6., strong),
     },
     {
       id: "courseGap",
-      varOpt: Suggest(10., strong),
+      varOpt: Suggest(12., strong),
     },
   ],
   constraints: [
@@ -60,21 +60,22 @@ let system = {
     {
       // courseName -> instructors
       instances: [
-        ("courseName1", "instructors1"),
-        ("courseName2", "instructors2"),
-        ("courseName3", "instructors3"),
+        ("courseNum1", "instructors1"),
+        ("courseNum2", "instructors2"),
+        ("courseNum3", "instructors3"),
       ],
-      gestalt: GestaltRelation.vAlignedGap(Var("nameInstrsGap"), CenterX),
+      gestalt: GestaltRelation.vAlignedGap(Var("nameInstrsGap"), Left),
     },
     {
       // course list
-      instances: [("course1", "course2"), ("course2", "course3")],
+      instances: [("course2", "course1"), ("course1", "course3")],
       gestalt: GestaltRelation.vGap(Var("courseGap")),
     },
     {
       // TODO: there are several ways to encode this!! Effectively serves as course's alignment
-      instances: [("course1", "course2"), ("course2", "course3")],
-      gestalt: GestaltRelation.centerXAlign,
+      instances: [("course2", "course1"), ("course1", "course3")],
+      // gestalt: GestaltRelation.centerXAlign,
+      gestalt: GestaltRelation.leftAlign,
     },
     {
       // course1 children

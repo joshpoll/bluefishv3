@@ -21,11 +21,11 @@ let system = {
   Gestalt2.variables: [
     {
       id: "numNameGap",
-      varOpt: Suggest(9.5, strong),
+      varOpt: Suggest(18., strong),
     },
     {
       id: "nameInstrsGap",
-      varOpt: Suggest(10., strong),
+      varOpt: Suggest(4., strong),
     },
     {
       id: "courseGap",
@@ -116,7 +116,7 @@ let system = {
       children: [],
       encoding: textEncoding(
         "Software Studio",
-        ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
+        ReactDOM.Style.make(~font="18px light sans-serif", ()),
       ),
       fixedSize: true,
     },
@@ -126,7 +126,7 @@ let system = {
       children: [],
       encoding: textEncoding(
         "Engineering Interactive Technologies",
-        ReactDOM.Style.make(~font="bold 18px sans-serif", ()),
+        ReactDOM.Style.make(~font="18px light sans-serif", ()),
       ),
       fixedSize: true,
     },
@@ -167,7 +167,7 @@ let system = {
       children: [],
       encoding: textEncoding(
         "Jackson & Satyanarayan",
-        ReactDOM.Style.make(~font="italic 16px serif", ()),
+        ReactDOM.Style.make(~font="18px light sans-serif", ()),
       ),
       fixedSize: true,
     },
@@ -175,7 +175,7 @@ let system = {
       id: "instructors2",
       padding: None,
       children: [],
-      encoding: textEncoding("Mueller", ReactDOM.Style.make(~font="italic 16px serif", ())),
+      encoding: textEncoding("Mueller", ReactDOM.Style.make(~font="18px light sans-serif", ())),
       fixedSize: true,
     },
     {

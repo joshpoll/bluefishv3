@@ -22,6 +22,41 @@ module Glyph = {
     | Set(array<t>)
     | Record(Belt.Map.String.t<t>, Belt.Map.String.t<relation>) // TODO: must include relations
   and relation = array<Belt.Map.String.t<t>>
+
+  let rec toJson = (glyph: t) => {
+    open Js.Json
+    switch glyph {
+    | Ref(ft, id) =>
+      object_(Js.Dict.fromArray([("type", string(ft)), ("ref", number(float_of_int(id)))]))
+    | Primitive(s) => string(s)
+    | Set(ts) => array(Belt.Array.map(ts, toJson))
+    | Record(fields, relations) =>
+      object_(
+        Js.Dict.fromArray([
+          (
+            "fields",
+            object_(
+              fields->Belt.Map.String.map(toJson)->Belt.Map.String.toArray->Js.Dict.fromArray,
+            ),
+          ),
+          (
+            "relations",
+            relations
+            ->Belt.Map.String.map(relationToJson)
+            ->Belt.Map.String.toArray
+            ->Js.Dict.fromArray
+            ->object_,
+          ),
+        ]),
+      )
+    }
+  }
+  and relationToJson = (relation: relation) =>
+    relation
+    ->Belt.Array.map(m =>
+      m->Belt.Map.String.map(toJson)->Belt.Map.String.toArray->Js.Dict.fromArray
+    )
+    ->Js.Json.objectArray
 }
 
 module AnnotatedGlyph = {
@@ -63,6 +98,15 @@ module Encoding = {
 type semanticSchema = Belt.Map.String.t<GlyphType.t>
 
 type semanticSystem = Belt.Map.String.t<array<Glyph.t>>
+
+let semanticSystemToJson = (ss: semanticSystem) =>
+  Js.Json.object_(
+    ss
+    ->Belt.Map.String.map(v => Js.Json.array(v->Belt.Array.map(Glyph.toJson)))
+    ->Belt.Map.String.toArray
+    ->Js.Dict.fromArray,
+  )
+
 type annotatedSemanticSystem = Belt.Map.String.t<array<AnnotatedGlyph.t>>
 
 // let annotateGlyph = (ss: semanticSystem, g: Glyph.t): AnnotatedGlyph.t =>

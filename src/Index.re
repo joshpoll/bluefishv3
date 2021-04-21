@@ -38,6 +38,55 @@ let makeContainer = text => {
 //   makeContainer("Bipartite Graph Three Structures Test"),
 // );
 
+// ReactDOMRe.render(
+//   <DisplayBox system=PenroseMap.semanticSystem encoding=PenroseMap.semanticEncoding />,
+//   makeContainer("Penrose Map Test"),
+// );
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(PythonTutorFullTuple.semanticSystem, PythonTutorFullTuple.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Python Tutor Full Tuple"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(PythonTutorSimple.semanticSystem, PythonTutorSimple.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Python Tutor"),
+);
+
+Js.log(StackedBarChart.semanticSystem->Semantic3.semanticSystemToJson->Js.Json.stringifyWithSpace(2));
+Js.log2("stacked bar chart", StackedBarChart.semanticSystem->Semantic3.semanticSystemToJson->Js.Json.stringifyWithSpace(2));
+Js.log2("bar chart", BarChart.semanticSystem->Semantic3.semanticSystemToJson->Js.Json.stringifyWithSpace(2));
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(StackedBarChart.semanticSystem, StackedBarChart.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Stacked Bar Chart"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(BarChart.semanticSystem, BarChart.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Bar Chart"),
+);
+
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(PenroseMap.semanticSystem, PenroseMap.semanticEncoding)
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Penrose Map Test"),
+);
+
 ReactDOMRe.render(
   KiwiGlyph.render(
     Semantic3.toGestalt(PowerSet.semanticSystem, PowerSet.semanticEncoding)
@@ -81,41 +130,66 @@ ReactDOMRe.render(
 
 ReactDOMRe.render(
   KiwiGlyph.render(
+    Semantic3.toGestalt(
+      TextLayoutSemantic3Different.semanticSystem,
+      TextLayoutSemantic3Different.semanticEncoding,
+    )
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Semantic3 Test"),
+);
+ReactDOMRe.render(
+  KiwiGlyph.render(
+    Semantic3.toGestalt(
+      TextLayoutSemantic3Similar.semanticSystem,
+      TextLayoutSemantic3Similar.semanticEncoding,
+    )
+    ->Gestalt2.Lower.system,
+  ),
+  makeContainer("Semantic3 Test"),
+);
+ReactDOMRe.render(
+  KiwiGlyph.render(
     Semantic3.toGestalt(TextLayoutSemantic3.semanticSystem, TextLayoutSemantic3.semanticEncoding)
     ->Gestalt2.Lower.system,
   ),
   makeContainer("Semantic3 Test"),
 );
 
-ReactDOMRe.render(
-  KiwiGlyph.render(TreeLayoutIcicle.system->Gestalt2.Lower.system),
-  makeContainer("Tree Layout Icicle"),
-);
+// ReactDOMRe.render(
+//   KiwiGlyph.render(TreeLayoutIcicle.system->Gestalt2.Lower.system),
+//   makeContainer("Tree Layout Icicle"),
+// );
+
+// ReactDOMRe.render(
+//   KiwiGlyph.render(TreeLayoutRevised.system->Gestalt2.Lower.system),
+//   makeContainer("Tree Layout Revised"),
+// );
+
+// ReactDOMRe.render(
+//   KiwiGlyph.render(
+//     Semantic2.toGestalt(TextLayoutSemantic2.semanticSystem, TextLayoutSemantic2.gestaltEncoding)
+//     ->Gestalt2.Lower.system,
+//   ),
+//   makeContainer("Semantic2 Test"),
+// );
+
+// ReactDOMRe.render(
+//   KiwiGlyph.render(
+//     Semantic.toGestalt(TextLayoutSemantic.semanticSystem, TextLayoutSemantic.gestaltEncoding)
+//     ->Gestalt2.Lower.system,
+//   ),
+//   makeContainer("Semantic Test"),
+// );
+
+// ReactDOMRe.render(
+//   KiwiGlyph.render(TreeLayout.system->Gestalt2.Lower.system),
+//   makeContainer("Tree Layout"),
+// );
 
 ReactDOMRe.render(
-  KiwiGlyph.render(TreeLayoutRevised.system->Gestalt2.Lower.system),
-  makeContainer("Tree Layout Revised"),
-);
-
-ReactDOMRe.render(
-  KiwiGlyph.render(
-    Semantic2.toGestalt(TextLayoutSemantic2.semanticSystem, TextLayoutSemantic2.gestaltEncoding)
-    ->Gestalt2.Lower.system,
-  ),
-  makeContainer("Semantic2 Test"),
-);
-
-ReactDOMRe.render(
-  KiwiGlyph.render(
-    Semantic.toGestalt(TextLayoutSemantic.semanticSystem, TextLayoutSemantic.gestaltEncoding)
-    ->Gestalt2.Lower.system,
-  ),
-  makeContainer("Semantic Test"),
-);
-
-ReactDOMRe.render(
-  KiwiGlyph.render(TreeLayout.system->Gestalt2.Lower.system),
-  makeContainer("Tree Layout"),
+  KiwiGlyph.render(TextLayoutGestaltCenteredDifferent.system->Gestalt2.Lower.system),
+  makeContainer("Text Layout Gestalt Centered Different"),
 );
 
 ReactDOMRe.render(
@@ -128,44 +202,44 @@ ReactDOMRe.render(
   makeContainer("Text Layout Gestalt Centered"),
 );
 
-ReactDOMRe.render(
-  KiwiGlyph.render(TextLayoutGestalt.system->Gestalt2.Lower.system),
-  makeContainer("Text Layout Gestalt"),
-);
-
-// ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
-
-ReactDOMRe.render(KiwiGlyph.render(SquareInCircle.system), makeContainer("Square in Circle"));
-
-// ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
-
 // ReactDOMRe.render(
-//   KiwiGlyph.render(
-//     Semantic2.toGestalt(TreeLayoutSemantic.semanticSystem, TreeLayoutSemantic.gestaltEncoding)
-//     ->Gestalt2.Lower.system,
-//   ),
-//   makeContainer("Tree Layout Semantic Test"),
+//   KiwiGlyph.render(TextLayoutGestalt.system->Gestalt2.Lower.system),
+//   makeContainer("Text Layout Gestalt"),
 // );
 
-// // All 4 examples.
-// ReactDOMRe.render(
-//   <BlinkingGreeting>
-//     {React.string("Hello!")}
-//   </BlinkingGreeting>,
-//   makeContainer("Blinking Greeting"),
-// );
+// // ReactDOMRe.render(KiwiGlyph.render(TextLayout.system), makeContainer("Text Layout"));
 
-// ReactDOMRe.render(
-//   <ReducerFromReactJSDocs />,
-//   makeContainer("Reducer From ReactJS Docs"),
-// );
+// ReactDOMRe.render(KiwiGlyph.render(SquareInCircle.system), makeContainer("Square in Circle"));
 
-// ReactDOMRe.render(
-//   <FetchedDogPictures />,
-//   makeContainer("Fetched Dog Pictures"),
-// );
+// // ReactDOMRe.render(KiwiGlyph.render(Simple.system), makeContainer("Simple Test"));
 
-// ReactDOMRe.render(
-//   <ReasonUsingJSUsingReason />,
-//   makeContainer("Reason Using JS Using Reason"),
-// );
+// // ReactDOMRe.render(
+// //   KiwiGlyph.render(
+// //     Semantic2.toGestalt(TreeLayoutSemantic.semanticSystem, TreeLayoutSemantic.gestaltEncoding)
+// //     ->Gestalt2.Lower.system,
+// //   ),
+// //   makeContainer("Tree Layout Semantic Test"),
+// // );
+
+// // // All 4 examples.
+// // ReactDOMRe.render(
+// //   <BlinkingGreeting>
+// //     {React.string("Hello!")}
+// //   </BlinkingGreeting>,
+// //   makeContainer("Blinking Greeting"),
+// // );
+
+// // ReactDOMRe.render(
+// //   <ReducerFromReactJSDocs />,
+// //   makeContainer("Reducer From ReactJS Docs"),
+// // );
+
+// // ReactDOMRe.render(
+// //   <FetchedDogPictures />,
+// //   makeContainer("Fetched Dog Pictures"),
+// // );
+
+// // ReactDOMRe.render(
+// //   <ReasonUsingJSUsingReason />,
+// //   makeContainer("Reason Using JS Using Reason"),
+// // );
